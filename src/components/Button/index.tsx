@@ -1,4 +1,3 @@
-import { FloppyDisk, Pen, Trash } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import React from 'react';
 import { icons } from '../Icons';
@@ -14,7 +13,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
-  children,
   icon,
   label,
   className,

@@ -1,5 +1,5 @@
-import { Info, Note, Package, Users, X } from '@phosphor-icons/react';
-import React, { useState } from 'react';
+import { Info, Note, Package, Users } from '@phosphor-icons/react';
+import React from 'react';
 import { Button } from '../Button';
 import { NavItem } from './NavItem';
 
@@ -19,7 +19,7 @@ export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
             <h1>SmartGas</h1>
           </span>
           <Button
-            icon={<X size={16} />}
+            icon="close"
             variant="transparent"
             onClick={toggleSidebar}
             className="p-2"

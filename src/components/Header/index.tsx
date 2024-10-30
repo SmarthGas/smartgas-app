@@ -7,7 +7,7 @@ interface HeaderProps {
 export const Header = ({ title }: HeaderProps) => {
   return (
     <header className="flex flex-col items-start">
-      <p className='text-sm'>{title}</p>
+      <p className="text-sm">{title}</p>
     </header>
   );
 };

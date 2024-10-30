@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { createTheme } from '@mui/material/styles';
 import type {} from '@mui/x-data-grid/themeAugmentation';
-import clsx from 'clsx';
 import { Button } from '../../components/Button';
-import { Pen, Trash } from '@phosphor-icons/react';
 import { Modal } from '../../components/Modal';
 import { FormEditUser } from './formEditUser';
 import { User } from '../../types/user';
+import { ConfirmDeleteuser } from './confirmDeleteUser';
 
 export const DataGridTable = () => {
   const [modal, setModal] = useState({
@@ -18,6 +16,8 @@ export const DataGridTable = () => {
 
   const [userToEdit, setUserToEdit] = useState<User>();
 
+  const [userToDelete, setUserToDelete] = useState<User>();
+
   const handleEditUser = (user: User) => {
     setUserToEdit(user);
     setModal({
@@ -26,8 +26,12 @@ export const DataGridTable = () => {
     });
   };
 
-  const handleDeleteUser = (user: any) => {
-    console.log('Deletar usuário', user);
+  const handleDeleteUser = (user: User) => {
+    setUserToDelete(user);
+    setModal({
+      title: 'Deletar Usuário',
+      name: 'delete-user',
+    });
   };
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
@@ -104,7 +108,16 @@ export const DataGridTable = () => {
           <Button
             variant="delete"
             icon="trash"
-            onClick={() => handleDeleteUser(params.row)}
+            onClick={() =>
+              handleDeleteUser({
+                id: String(params.row.id),
+                name: params.row.firstName,
+                lastName: params.row.lastName,
+                email: params.row.email,
+                cpf: params.row.cpf,
+                address: params.row.address,
+              })
+            }
           />
         </div>
       ),
@@ -146,7 +159,6 @@ export const DataGridTable = () => {
       {modal.name === 'edit-user' && (
         <Modal
           title={modal.title}
-          name={modal.name}
           closeModal={() =>
             setModal({
               title: '',
@@ -160,7 +172,6 @@ export const DataGridTable = () => {
       {modal.name === 'delete-user' && (
         <Modal
           title={modal.title}
-          name={modal.name}
           closeModal={() =>
             setModal({
               title: '',
@@ -168,13 +179,7 @@ export const DataGridTable = () => {
             })
           }
         >
-          <div className="flex flex-col gap-4">
-            <p>Tem certeza que deseja deletar o usuário?</p>
-            <div className="flex gap-4">
-              <Button variant="delete">Deletar</Button>
-              <Button variant="primary">Cancelar</Button>
-            </div>
-          </div>
+          <ConfirmDeleteuser user={userToDelete} setModal={setModal} />
         </Modal>
       )}
       <Box
