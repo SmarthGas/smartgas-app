@@ -15,6 +15,10 @@ module.exports = {
           200: '#BFAC8B',
           100: '#F2F1EC',
         },
+        grey: {
+          200: '#808080',
+          100: '#F2F2F2',
+        },
         light: '#E5E5E5',
         delete: '#9B0303',
       },
