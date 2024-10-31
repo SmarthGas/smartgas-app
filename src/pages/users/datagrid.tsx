@@ -204,7 +204,6 @@ export const DataGridTable = () => {
           pageSizeOptions={[5]}
           disableRowSelectionOnClick
           disableColumnMenu
-          disableColumnResize
           disableColumnSorting
           sx={{
             '& .MuiDataGrid-columnHeader:focus': {
@@ -213,6 +212,10 @@ export const DataGridTable = () => {
             },
             '& .MuiDataGrid-row:hover': {
               backgroundColor: 'transparent',
+            },
+            '& .MuiDataGrid-cell': {
+              borderLeft: 'solid #002126 1px',
+              borderRight: 'solid #002126 1px',
             },
             '& .MuiDataGrid-cell:hover': {
               backgroundColor: '#002126',
@@ -231,6 +234,9 @@ export const DataGridTable = () => {
               backgroundColor: '#002126',
               borderTop: 'solid #002126 1px',
               color: '#e5e5e5',
+            },
+            '& .MuiDataGrid-iconSeparator': {
+              color: '#00272D',
             },
 
             border: 'solid #8080 1px',
