@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { GridColDef } from '@mui/x-data-grid';
 import type {} from '@mui/x-data-grid/themeAugmentation';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { FormEditUser } from './formEditUser';
 import { User } from '../../types/user';
 import { ConfirmDeleteuser } from './confirmDeleteUser';
+import { DataGridBox } from '../../components/Datagrid';
 
 export const DataGridTable = () => {
   const [modal, setModal] = useState({
@@ -182,69 +182,7 @@ export const DataGridTable = () => {
           <ConfirmDeleteuser user={userToDelete} setModal={setModal} />
         </Modal>
       )}
-      <Box
-        sx={{
-          position: 'relative',
-          display: 'flex',
-          backgroundColor: 'transparent',
-          height: 400,
-          width: '100%',
-        }}
-      >
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          disableRowSelectionOnClick
-          disableColumnMenu
-          disableColumnSorting
-          sx={{
-            '& .MuiDataGrid-columnHeader:focus': {
-              outline: 'none', // Remove a borda de foco
-              boxShadow: '0 0 4px 1px #002126',
-            },
-            '& .MuiDataGrid-row:hover': {
-              backgroundColor: 'transparent',
-            },
-            '& .MuiDataGrid-cell': {
-              borderLeft: 'solid #002126 1px',
-              borderRight: 'solid #002126 1px',
-            },
-            '& .MuiDataGrid-cell:hover': {
-              backgroundColor: '#002126',
-            },
-            '& .MuiDataGrid-cell:focus': {
-              outline: 'none', // Remove a borda de foco
-              boxShadow: '0 0 4px 2px #002126',
-            },
-            '--DataGrid-containerBackground': '#002126',
-            '--DataGrid-rowBorderColor': '#002126',
-            '& .MuiDataGrid-row': {
-              color: '#e5e5e5', // cor do texto
-            },
-            '& .MuiDataGrid-footerContainer': {
-              border: 'none',
-              backgroundColor: '#002126',
-              borderTop: 'solid #002126 1px',
-              color: '#e5e5e5',
-            },
-            '& .MuiDataGrid-iconSeparator': {
-              color: '#00272D',
-            },
-
-            border: 'solid #8080 1px',
-            boxShadow: '0 0 4px 3px #002126',
-            fontSize: '12px',
-          }}
-        />
-      </Box>
+      <DataGridBox rows={rows} columns={columns} />
     </>
   );
 };
