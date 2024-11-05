@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GridColDef } from '@mui/x-data-grid';
 import type {} from '@mui/x-data-grid/themeAugmentation';
 import { Button } from '../../components/Button';
@@ -8,6 +8,7 @@ import { User } from '../../types/user';
 import { ConfirmDeleteuser } from './confirmDeleteUser';
 import { DataGridBox } from '../../components/Datagrid';
 import { Section } from '../../components/Section';
+import api from '../../lib/api';
 
 export const Users = () => {
   const [modal, setModal] = useState({
@@ -34,6 +35,15 @@ export const Users = () => {
       name: 'delete-user',
     });
   };
+
+  const getUsers = async () => {
+    const { data } = await api.get('/users');
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
     {
