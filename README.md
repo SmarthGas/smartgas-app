@@ -48,3 +48,21 @@ export default tseslint.config({
   },
 })
 ```
+## Como iniciar a aplicação
+
+#### Execute o seguinte comando no terminal
+```
+cp .env.example .env
+```
+
+#### Instale as dependencias
+```
+npm install
+```
+
+#### Iniciar app em modo desenvolvimento
+```
+npm run dev
+```
+
+
