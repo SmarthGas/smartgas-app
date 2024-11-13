@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '../../components/Button';
 
 export const SignupPage = () => {
+  // Resgata a localização atual da página para definir a aba ativa
   const location = useLocation();
-
   const isActive = (path: string) => location.pathname === path;
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(formData);
+  };
 
   return (
     <div className="flex flex-col w-screen absolute top-0 left-0 h-full bg-brand-300 px-16 place-content-center">
@@ -38,31 +56,70 @@ export const SignupPage = () => {
           <p>Inscreva-se</p>
         </div>
 
-        <form id="form" className="flex flex-col space-y-6 ">
+        <form
+          id="form"
+          className="flex flex-col space-y-6"
+          onSubmit={handleSubmit}
+        >
           <div className="space-y-6">
             <div className="flex flex-col">
-              <label htmlFor="" className="text-cream-100 text-xs w-max">
+              <label
+                htmlFor="name_input"
+                className="text-cream-100 text-xs w-max"
+              >
                 Nome
               </label>
-              <input className="p-3"></input>
+              <input
+                id="name_input"
+                name="name"
+                type="text"
+                value={formData.name}
+                onChange={handleChange}
+                className="p-3"
+              ></input>
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="" className="text-cream-100 text-xs w-max">
-                Nome
+              <label
+                htmlFor="email_input"
+                className="text-cream-100 text-xs w-max"
+              >
+                Email
               </label>
-              <input className="p-3"></input>
+              <input
+                id="email_input"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="p-3"
+              ></input>
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="" className="text-cream-100 text-xs w-max">
-                Nome
+              <label
+                htmlFor="password_input"
+                className="text-cream-100 text-xs w-max"
+              >
+                Senha
               </label>
-              <input className="p-3"></input>
+              <input
+                id="password_input"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="p-3"
+              ></input>
             </div>
           </div>
 
-          <Button label="Inscreva-se" variant="primary" className="w-max" />
+          <Button
+            label="Inscreva-se"
+            variant="primary"
+            className="w-max"
+            type="submit"
+          />
         </form>
       </div>
       <div className="h-18"></div>
