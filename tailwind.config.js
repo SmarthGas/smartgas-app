@@ -22,6 +22,7 @@ export const theme = {
             delete: '#9B0303',
         },
         spacing: {
+            12.5: '3.125rem',
             18: '4.5rem',
         }
     },
