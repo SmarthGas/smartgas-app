@@ -21,6 +21,9 @@ export const theme = {
             light: '#E5E5E5',
             delete: '#9B0303',
         },
+        spacing: {
+            18: '4.5rem',
+        }
     },
 };
 export const plugins = [];
