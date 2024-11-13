@@ -1,8 +1,19 @@
 import React from 'react';
 import { useState } from 'react';
 import { Button } from '../Button';
+import { Modal } from '../Modal';
 
 export const SignInForm = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -54,6 +65,18 @@ export const SignInForm = () => {
             required
             className="p-3"
           ></input>
+          <button
+            className="flex text-xs underline text-cream-100"
+            onClick={handleOpenModal}
+          >
+            Esqueci a senha
+          </button>
+
+          {isModalOpen && (
+            <Modal title="Redefinição de Senha" closeModal={handleCloseModal}>
+              <p>Modal</p>
+            </Modal>
+          )}
         </div>
       </div>
 
