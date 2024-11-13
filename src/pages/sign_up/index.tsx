@@ -1,28 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from '../../components/Button';
+import { SignUpForm } from '../../components/SignUpForm';
+import { SignInForm } from '../../components/SignInForm';
 
 export const SignupPage = () => {
   // Resgata a localização atual da página para definir a aba ativa
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(formData);
+  const getTitle = () => {
+    return isActive('/sign_up') ? 'Inscreva-se' : 'Login';
   };
 
   return (
@@ -30,7 +17,7 @@ export const SignupPage = () => {
       <div className="flex flex-col h-18"></div>
       <div
         id="content"
-        className="flex flex-col pt-2 pb-24 w-max h-max inset-0 m-auto"
+        className="flex flex-col pt-2 pb-24 w-max h-max inset-0 m-auto space-y-8"
       >
         <div id="tabs" className="w-full">
           <Link to="/sign_up">
@@ -50,77 +37,13 @@ export const SignupPage = () => {
         </div>
 
         <div
-          id="section title"
+          id="section_title"
           className="text-cream-100 text-4xl font-semibold"
         >
-          <p>Inscreva-se</p>
+          <p>{getTitle()}</p>
         </div>
 
-        <form
-          id="form"
-          className="flex flex-col space-y-6"
-          onSubmit={handleSubmit}
-        >
-          <div className="space-y-6">
-            <div className="flex flex-col">
-              <label
-                htmlFor="name_input"
-                className="text-cream-100 text-xs w-max"
-              >
-                Nome
-              </label>
-              <input
-                id="name_input"
-                name="name"
-                type="text"
-                value={formData.name}
-                onChange={handleChange}
-                className="p-3"
-              ></input>
-            </div>
-
-            <div className="flex flex-col">
-              <label
-                htmlFor="email_input"
-                className="text-cream-100 text-xs w-max"
-              >
-                Email
-              </label>
-              <input
-                id="email_input"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="p-3"
-              ></input>
-            </div>
-
-            <div className="flex flex-col">
-              <label
-                htmlFor="password_input"
-                className="text-cream-100 text-xs w-max"
-              >
-                Senha
-              </label>
-              <input
-                id="password_input"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="p-3"
-              ></input>
-            </div>
-          </div>
-
-          <Button
-            label="Inscreva-se"
-            variant="primary"
-            className="w-max"
-            type="submit"
-          />
-        </form>
+        <div>{isActive('/sign_up') ? <SignUpForm /> : <SignInForm />}</div>
       </div>
       <div className="h-18"></div>
     </div>
