@@ -13,7 +13,7 @@ export const SignupPage = () => {
   };
 
   return (
-    <div className="flex flex-col w-screen absolute top-0 left-0 h-full bg-brand-300 px-16 place-content-center">
+    <div className="flex flex-col w-screen absolute top-0 left-0 h-full bg-brand-300 px-16 ">
       <div className="flex flex-col h-18"></div>
       <div
         id="content"
