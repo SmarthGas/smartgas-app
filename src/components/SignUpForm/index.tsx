@@ -3,19 +3,18 @@ import { useState } from 'react';
 import { Button } from '../Button';
 
 export const SignUpForm = () => {
+  // constantes que controlam os dados do formulário
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
   });
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formData);
@@ -35,7 +34,7 @@ export const SignUpForm = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="p-3"
+            className="p-3 rounded-xl"
           ></input>
         </div>
 
@@ -50,7 +49,7 @@ export const SignUpForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="p-3"
+            className="p-3 rounded-xl"
           ></input>
         </div>
 
@@ -68,17 +67,19 @@ export const SignUpForm = () => {
             value={formData.password}
             onChange={handleChange}
             required
-            className="p-3"
+            className="p-3 rounded-xl"
           ></input>
         </div>
       </div>
 
-      <Button
-        label="Inscreva-se"
-        variant="primary"
-        className="w-max"
-        type="submit"
-      />
+      <div className="flex justify-center">
+        <Button
+          label="Inscreva-se"
+          variant="primary"
+          className="w-max"
+          type="submit"
+        />
+      </div>
     </form>
   );
 };

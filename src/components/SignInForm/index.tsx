@@ -2,33 +2,35 @@ import React from 'react';
 import { useState } from 'react';
 import { Button } from '../Button';
 import { Modal } from '../Modal';
+import { ResetPassword } from '../../pages/reset_password';
+
+// todo import api from '../../lib/api';
 
 export const SignInForm = () => {
+  // constantes que controlam a abertura e fechamento do modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
+  // constantes que controlam os dados do formulário
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formData);
+    // todo api.post('/login', formData);
   };
 
   return (
@@ -44,8 +46,7 @@ export const SignInForm = () => {
             type="email"
             value={formData.email}
             onChange={handleChange}
-            required
-            className="p-3"
+            className="p-3 rounded-xl"
           ></input>
         </div>
 
@@ -62,8 +63,7 @@ export const SignInForm = () => {
             type="password"
             value={formData.password}
             onChange={handleChange}
-            required
-            className="p-3"
+            className="p-3 rounded-xl"
           ></input>
           <button
             className="flex text-xs underline text-cream-100"
@@ -73,19 +73,21 @@ export const SignInForm = () => {
           </button>
 
           {isModalOpen && (
-            <Modal title="Redefinição de Senha" closeModal={handleCloseModal}>
-              <p>Modal</p>
+            <Modal title="" closeModal={handleCloseModal}>
+              <ResetPassword />
             </Modal>
           )}
         </div>
       </div>
 
-      <Button
-        label="Entrar"
-        variant="primary"
-        className="w-max"
-        type="submit"
-      />
+      <div className="flex justify-center">
+        <Button
+          label="Entrar"
+          variant="primary"
+          className="w-max"
+          type="submit"
+        />
+      </div>
     </form>
   );
 };
