@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Button } from '../Button';
+import { Input } from '../Input';
 
 export const SignUpForm = () => {
   // constantes que controlam os dados do formulário
@@ -23,52 +24,52 @@ export const SignUpForm = () => {
   return (
     <form id="form" className="flex flex-col space-y-6" onSubmit={handleSubmit}>
       <div className="space-y-6">
-        <div className="flex flex-col">
+        <div className="flex flex-col space-y-2">
           <label htmlFor="name_input" className="text-cream-100 text-xs w-max">
             Nome
           </label>
-          <input
+          <Input
             id="name_input"
             name="name"
             type="text"
             value={formData.name}
             onChange={handleChange}
             required
-            className="p-3 rounded-xl"
-          ></input>
+            placeholder="Digite seu nome"
+          ></Input>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col space-y-2">
           <label htmlFor="email_input" className="text-cream-100 text-xs w-max">
             Email
           </label>
-          <input
+          <Input
             id="email_input"
             name="email"
             type="email"
             value={formData.email}
             onChange={handleChange}
             required
-            className="p-3 rounded-xl"
-          ></input>
+            placeholder="Digite seu email"
+          ></Input>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col space-y-2">
           <label
             htmlFor="password_input"
             className="text-cream-100 text-xs w-max"
           >
             Senha
           </label>
-          <input
+          <Input
             id="password_input"
             name="password"
             type="password"
             value={formData.password}
             onChange={handleChange}
             required
-            className="p-3 rounded-xl"
-          ></input>
+            placeholder="Digite sua senha"
+          ></Input>
         </div>
       </div>
 

@@ -9,7 +9,7 @@ export const SignupPage = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const getTitle = () => {
-    return isActive('/sign_up') ? 'Inscreva-se' : 'Login';
+    return isActive('/sign_up') ? 'Inscrever-se' : 'Login';
   };
 
   return (
@@ -24,7 +24,7 @@ export const SignupPage = () => {
             <button
               className={`w-60 h-12.5 text-cream-100 text-xs ${isActive('/sign_up') ? 'border-b-2' : ''}`}
             >
-              Inscreva-se
+              Inscrever-se
             </button>
           </Link>
           <Link to="/">

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from '../Button';
 import { Modal } from '../Modal';
 import { ResetPassword } from '../../pages/reset_password';
+import { Input } from '../Input';
 
 // todo import api from '../../lib/api';
 
@@ -36,35 +37,35 @@ export const SignInForm = () => {
   return (
     <form id="form" className="flex flex-col space-y-6" onSubmit={handleSubmit}>
       <div className="space-y-6">
-        <div className="flex flex-col">
+        <div className="flex flex-col space-y-2">
           <label htmlFor="email_input" className="text-cream-100 text-xs w-max">
             Email
           </label>
-          <input
+          <Input
             id="email_input"
             name="email"
             type="email"
             value={formData.email}
             onChange={handleChange}
-            className="p-3 rounded-xl"
-          ></input>
+            placeholder="Digite seu email"
+          ></Input>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col space-y-2">
           <label
             htmlFor="password_input"
             className="text-cream-100 text-xs w-max"
           >
             Senha
           </label>
-          <input
+          <Input
             id="password_input"
             name="password"
             type="password"
             value={formData.password}
             onChange={handleChange}
-            className="p-3 rounded-xl"
-          ></input>
+            placeholder="Digite sua senha"
+          ></Input>
           <button
             className="flex text-xs underline text-cream-100"
             onClick={handleOpenModal}
