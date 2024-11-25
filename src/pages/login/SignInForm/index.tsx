@@ -1,11 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
-import { Button } from '../Button';
-import { Input } from '../Input';
+import { Button } from '../../../components/Button';
+import { Input } from '../../../components/Input';
 
-import api from '../../lib/api';
 import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from '../../../lib/api';
 
 export const SignInForm = () => {
   const navigate = useNavigate();

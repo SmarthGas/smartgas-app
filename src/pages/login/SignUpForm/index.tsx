@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-import { Button } from '../Button';
-import { Input } from '../Input';
-import api from '../../lib/api';
+import api from '../../../lib/api';
+import { Button } from '../../../components/Button';
+import { Input } from '../../../components/Input';
 
 export const SignUpForm = () => {
   const bearerToken = localStorage.getItem('token');
