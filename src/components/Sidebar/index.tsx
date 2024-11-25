@@ -1,8 +1,7 @@
 import { Info, Note, Package, Users } from '@phosphor-icons/react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from '../Button';
 import { NavItem } from './NavItem';
-import { useUser } from '../../providers/userContext';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -10,11 +9,6 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
-  const { user, setUser } = useUser();
-
-  useEffect(() => {
-    setUser({ id: '1', name: 'John Doe', email: 'john@email.com' });
-  }, []);
   return (
     <div
       className={`fixed top-0 left-0 w-64 h-full bg-brand-400 shadow-xl text-white transition-transform transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
