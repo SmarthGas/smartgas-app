@@ -2,13 +2,16 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import { AppRoutes } from './routes';
+import { UserProvider } from './providers/userContext';
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
+      <UserProvider>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </UserProvider>
     </>
   );
 }
