@@ -5,7 +5,8 @@ import { Modal } from '../Modal';
 import { ResetPassword } from '../../pages/reset_password';
 import { Input } from '../Input';
 
-// todo import api from '../../lib/api';
+import api from '../../lib/api';
+import { AxiosResponse } from 'axios';
 
 export const SignInForm = () => {
   // constantes que controlam a abertura e fechamento do modal
@@ -30,8 +31,21 @@ export const SignInForm = () => {
   };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    // todo api.post('/login', formData);
+    api
+      .post('http://44.203.117.17:3000/auth/login', formData)
+      .then((response: AxiosResponse) => {
+        console.log(response.data.access_token);
+
+        if (response.status === 201) {
+          localStorage.setItem('token', response.data.access_token);
+          window.location.href = '/home';
+        } else {
+          console.log('Usuário ou senha inválidos');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
