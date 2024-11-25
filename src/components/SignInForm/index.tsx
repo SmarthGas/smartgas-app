@@ -74,7 +74,7 @@ export const SignInForm = () => {
           </button>
 
           {isModalOpen && (
-            <Modal title="" closeModal={handleCloseModal}>
+            <Modal title="Redefinição de senha" closeModal={handleCloseModal}>
               <ResetPassword />
             </Modal>
           )}
