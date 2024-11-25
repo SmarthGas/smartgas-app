@@ -7,7 +7,20 @@ export const SignupPage = () => {
   // Resgata a localização atual da página para definir a aba ativa
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
+  let step = 1;
+  let isOpen = false;
+  let userId = '';
+  if (location.search) {
+    const params = new URLSearchParams(location.search);
+    const userId = params.get('userId');
+    console.log('USER ID:', userId);
 
+    step = 3;
+    isOpen = true;
+    console.log('step:', step);
+  } else {
+    console.log('nenhum usuário encontrado');
+  }
   const getTitle = () => {
     return isActive('/sign_up') ? 'Inscrever-se' : 'Login';
   };

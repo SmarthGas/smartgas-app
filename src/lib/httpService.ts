@@ -11,7 +11,7 @@ class HttpService {
 
   constructor() {
     this.client = axios.create({
-      baseURL: import.meta.env.VITE_API_URL as string, // URL base da API
+      baseURL: import.meta.env.VITE_API_BASE_URL as string, // URL base da API
       timeout: 10000, // tempo limite em milissegundos (ajuste conforme necessário)
       headers: {
         'Content-Type': 'application/json',
