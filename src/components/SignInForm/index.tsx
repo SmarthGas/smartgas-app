@@ -11,7 +11,8 @@ import { AxiosResponse } from 'axios';
 export const SignInForm = () => {
   // constantes que controlam a abertura e fechamento do modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpenModal = () => {
+  const handleOpenModal = (e: React.FormEvent) => {
+    e.preventDefault();
     setIsModalOpen(true);
   };
   const handleCloseModal = () => {
@@ -32,7 +33,7 @@ export const SignInForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     api
-      .post('http://44.203.117.17:3000/auth/login', formData)
+      .post('http://localhost:3000/auth/login', formData)
       .then((response: AxiosResponse) => {
         console.log(response.data.access_token);
 
