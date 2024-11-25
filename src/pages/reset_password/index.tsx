@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
+import api from '../../lib/api';
 
 export const ResetPassword = () => {
   const [step, setStep] = useState(1);
@@ -12,6 +13,12 @@ export const ResetPassword = () => {
   const handleSubmit = () => {
     // TODO: fazer a requisição à API para enviar o email
     console.log('data: ', email);
+
+    api
+      .post('http://localhost:3000/auth/forget', { email })
+      .then((response) => {
+        console.log(response);
+      });
 
     setStep(2);
   };
