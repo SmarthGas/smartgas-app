@@ -1,24 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
-import { Button } from '../Button';
-import { Modal } from '../Modal';
-import { ResetPassword } from '../../pages/reset_password';
-import { Input } from '../Input';
+import { Button } from '../../../components/Button';
+import { Input } from '../../../components/Input';
 
-// todo import api from '../../lib/api';
-
-export const SignInForm = () => {
-  // constantes que controlam a abertura e fechamento do modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
+export const SignUpForm = () => {
   // constantes que controlam os dados do formulário
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: '',
   });
@@ -31,12 +19,26 @@ export const SignInForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formData);
-    // todo api.post('/login', formData);
   };
 
   return (
     <form id="form" className="flex flex-col space-y-6" onSubmit={handleSubmit}>
       <div className="space-y-6">
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="name_input" className="text-cream-100 text-xs w-max">
+            Nome
+          </label>
+          <Input
+            id="name_input"
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            placeholder="Digite seu nome"
+          ></Input>
+        </div>
+
         <div className="flex flex-col space-y-2">
           <label htmlFor="email_input" className="text-cream-100 text-xs w-max">
             Email
@@ -47,6 +49,7 @@ export const SignInForm = () => {
             type="email"
             value={formData.email}
             onChange={handleChange}
+            required
             placeholder="Digite seu email"
           ></Input>
         </div>
@@ -64,26 +67,15 @@ export const SignInForm = () => {
             type="password"
             value={formData.password}
             onChange={handleChange}
+            required
             placeholder="Digite sua senha"
           ></Input>
-          <button
-            className="flex text-xs underline text-cream-100"
-            onClick={handleOpenModal}
-          >
-            Esqueci a senha
-          </button>
-
-          {isModalOpen && (
-            <Modal title="Redefinição de senha" closeModal={handleCloseModal}>
-              <ResetPassword />
-            </Modal>
-          )}
         </div>
       </div>
 
       <div className="flex justify-center">
         <Button
-          label="Entrar"
+          label="Inscreva-se"
           variant="primary"
           className="w-max"
           type="submit"
