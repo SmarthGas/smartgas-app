@@ -1,4 +1,4 @@
-import { Info, Note, Package, Users } from '@phosphor-icons/react';
+import { Info, Note, Package, SignOut, Users } from '@phosphor-icons/react';
 import React from 'react';
 import { Button } from '../Button';
 import { NavItem } from './NavItem';
@@ -9,6 +9,9 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
+  const handleSignOut = () => {
+    console.log('fazendo signout');
+  };
   return (
     <div
       className={`fixed top-0 left-0 w-64 h-full bg-brand-400 shadow-xl text-white transition-transform transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
@@ -39,6 +42,11 @@ export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
             <NavItem icon={<Info size={16} />} title="Sobre" to="/about" />
           </li>
         </ul>
+        <div className="flex flex-col justify-end h-full">
+          <div onClick={handleSignOut}>
+            <NavItem icon={<SignOut size={16} />} title="Sair" to="/login" />
+          </div>
+        </div>
       </div>
     </div>
   );

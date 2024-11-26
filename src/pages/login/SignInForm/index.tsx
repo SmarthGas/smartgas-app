@@ -1,28 +1,16 @@
 import React from 'react';
 import { useState } from 'react';
 import { Button } from '../../../components/Button';
-import { Modal } from '../../../components/Modal';
-import { ResetPassword } from '../../reset_password';
 import { Input } from '../../../components/Input';
 import api from '../../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../../providers/userContext';
 import { useSnackbar } from 'notistack';
 
-// todo import api from '../../lib/api';
-
 export const SignInForm = () => {
   const { setUser } = useUser();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  // constantes que controlam a abertura e fechamento do modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
 
   // constantes que controlam os dados do formulário
   const [formData, setFormData] = useState({
@@ -106,16 +94,10 @@ export const SignInForm = () => {
           ></Input>
           <button
             className="flex text-xs underline text-cream-100"
-            onClick={handleOpenModal}
+            onClick={() => navigate('/forgot-password')}
           >
             Esqueci a senha
           </button>
-
-          {isModalOpen && (
-            <Modal title="Redefinição de senha" closeModal={handleCloseModal}>
-              <ResetPassword />
-            </Modal>
-          )}
         </div>
       </div>
 
