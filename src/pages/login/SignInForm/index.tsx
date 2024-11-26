@@ -4,10 +4,15 @@ import { Button } from '../../../components/Button';
 import { Modal } from '../../../components/Modal';
 import { ResetPassword } from '../../reset_password';
 import { Input } from '../../../components/Input';
+import api from '../../../lib/api';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../../providers/userContext';
 
 // todo import api from '../../lib/api';
 
 export const SignInForm = () => {
+  const { user, setUser } = useUser();
+  const navigate = useNavigate();
   // constantes que controlam a abertura e fechamento do modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => {
@@ -28,10 +33,39 @@ export const SignInForm = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formData);
-    // todo api.post('/login', formData);
+    try {
+      const { data } = await api.post<{
+        message: string;
+        access_token: string;
+      }>('/auth/login', formData);
+
+      localStorage.setItem('token', data.access_token);
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      const { data } = await api.get<{
+        id: string;
+        name: string;
+        email: string;
+      }>('/auth/me');
+
+      setUser({
+        id: data.id,
+        name: data.name,
+        email: data.email,
+      });
+
+      console.log(data);
+
+      navigate('/users');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
