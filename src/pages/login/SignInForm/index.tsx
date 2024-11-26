@@ -7,11 +7,13 @@ import { Input } from '../../../components/Input';
 import api from '../../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../../providers/userContext';
+import { useSnackbar } from 'notistack';
 
 // todo import api from '../../lib/api';
 
 export const SignInForm = () => {
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   // constantes que controlam a abertura e fechamento do modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,6 +45,8 @@ export const SignInForm = () => {
       }>('/auth/login', formData);
 
       localStorage.setItem('token', data.access_token);
+
+      enqueueSnackbar(data.message, { variant: 'success' });
     } catch (error) {
       console.log(error);
     }
