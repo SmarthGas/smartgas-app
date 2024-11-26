@@ -106,7 +106,7 @@ export const SignUpForm = () => {
             name="role"
             required
             value={formData.rolesType}
-            onChange={handleChange}
+            //onChange={handleChange}
           >
             <option value="guest">Guest</option>
             <option value="admin">Admin</option>
