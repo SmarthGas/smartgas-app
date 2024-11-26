@@ -1,185 +1,106 @@
-import React, { useState } from 'react';
-import { Button } from '../../components/Button';
+import React, { useEffect, useState } from 'react';
 import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
+import { useNavigate, useParams } from 'react-router-dom';
+import api from '../../lib/api';
 
 export const ResetPassword = () => {
-  const [step, setStep] = useState(1);
-  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
 
-  const handleSubmit = () => {
-    // TODO: fazer a requisição à API para enviar o email
-    console.log('data: ', email);
+  //get url params value
 
-    setStep(2);
-  };
-  const handleVerificationSubmit = () => {
-    // TODO: fazer a requisição à API para verificar o código
-    console.log('data: ', verificationCode);
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+  const { userId } = useParams();
 
-    setStep(3);
-  };
+  useEffect(() => {
+    console.log('user id:', userId);
+  }, []);
+
   const handlePasswordSubmit = () => {
     // TODO: fazer a requisição à API para redefinir a senha
     // e.preventDefault();
-    console.log('data: ', newPassword, confirmPassword);
+    console.log('data: ', newPassword, confirmPassword, userId);
 
     // Verificar se as senhas coincidem e enviar à API
     if (newPassword === confirmPassword) {
-      console.log('Senha redefinida com sucesso!');
+      console.log('Bearer token:', token);
+      api.post(
+        '/auth/reset',
+        {
+          password: newPassword,
+          id: userId,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      // recarregar a página ou redirecionar para a página de login
-      window.location.href = '/';
-
-      // Fechar modal ou exibir mensagem de sucesso
+      alert('Senha alterada com sucesso!');
+      navigate('/users');
     } else {
       console.error('As senhas não coincidem.');
     }
   };
-
-  const handleResendCode = () => {
-    // TODO: fazer a requisição à API para reenviar o código
-    console.log('Reenviando código...');
-  };
-
   return (
-    <div id="section_title" className="flex flex-col w-max h-auto space-y-6">
-      {step === 1 && (
-        <div className="space-y-6">
-          <h2 id="text">
-            Informe o endereço de email associado à sua conta para alterar sua
-            senha.
+    <div className="flex flex-col w-screen absolute top-0 left-0 h-screen bg-brand-300 text-cream-100 items-center p-[10vh]">
+      <div className="flex flex-col max-w-screen md:max-w-[500px] gap-5">
+        <div className="flex flex-col gap-3">
+          <h2 id="text" className="font-semibold text-4xl">
+            Escolha uma nova senha
           </h2>
-
-          <div className="flex flex-col space-y-6">
-            <div className="flex flex-col space-y-1">
-              <label
-                htmlFor="email_input"
-                className="text-cream-100 text-xs w-max"
-              >
-                Email
-              </label>
-              <Input
-                id="email_input"
-                name="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></Input>
-            </div>
-
-            <div className="flex justify-center">
-              <Button
-                label="Avançar"
-                variant="primary"
-                type="button"
-                onClick={handleSubmit}
-              />
-            </div>
+          <h3 id="text" className="break-normal">
+            Sua nova senha deve conter 8 caracteres ou mais.
+          </h3>
+        </div>
+        <div className="flex flex-col space-y-6">
+          <div className="flex flex-col space-y-1">
+            <label
+              htmlFor="new_password_input"
+              className="text-cream-100 text-xs w-max"
+            >
+              Digite uma nova senha
+            </label>
+            <Input
+              id="new_password_input"
+              name="newPassword"
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            ></Input>
+          </div>
+          <div className="flex flex-col space-y-1">
+            <label
+              htmlFor="confirm_new_password_input"
+              className="text-cream-100 text-xs w-max"
+            >
+              Confirme sua nova senha
+            </label>
+            <Input
+              id="confirm_new_password_input"
+              name="verificationCode"
+              type="password"
+              value={confirmPassword}
+              className="w-full"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            ></Input>
+          </div>
+          <div className="flex justify-center">
+            <Button
+              label="Alterar senha"
+              variant="primary"
+              type="button"
+              onClick={handlePasswordSubmit}
+            />
           </div>
         </div>
-      )}
-      {step === 2 && (
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <h2 id="text" className="font-semibold text-4xl">
-              Código enviado!
-            </h2>
-            <h3 id="text">
-              Verifique sua caixa de entrada e insira o código de verificação
-              abaixo.
-            </h3>
-          </div>
-
-          <div className="flex flex-col space-y-6">
-            <div className="flex flex-col space-y-1">
-              <label
-                htmlFor="code_input"
-                className="text-cream-100 text-xs w-max"
-              >
-                Código de verificação
-              </label>
-              <Input
-                id="code_input"
-                name="verificationCode"
-                type="text"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-              ></Input>
-            </div>
-            <div className="flex justify-center">
-              <Button
-                label="Reenviar código"
-                variant="transparent"
-                type="button"
-                onClick={handleResendCode}
-              />
-            </div>
-            <div className="flex justify-center">
-              <Button
-                label="Avançar"
-                variant="primary"
-                type="button"
-                onClick={handleVerificationSubmit}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      {step === 3 && (
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <h2 id="text" className="font-semibold text-4xl">
-              Escolha uma nova senha
-            </h2>
-            <h3 id="text" className="break-normal">
-              Sua nova senha deve conter 8 caracteres ou mais.
-            </h3>
-          </div>
-          <div className="flex flex-col space-y-6">
-            <div className="flex flex-col space-y-1">
-              <label
-                htmlFor="code_input"
-                className="text-cream-100 text-xs w-max"
-              >
-                Digite uma nova senha
-              </label>
-              <Input
-                id="code_input"
-                name="verificationCode"
-                type="text"
-                value={verificationCode}
-                onChange={(e) => setNewPassword(e.target.value)}
-              ></Input>
-            </div>
-            <div className="flex flex-col space-y-1">
-              <label
-                htmlFor="code_input"
-                className="text-cream-100 text-xs w-max"
-              >
-                Confirme sua nova senha
-              </label>
-              <Input
-                id="code_input"
-                name="verificationCode"
-                type="text"
-                value={verificationCode}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              ></Input>
-            </div>
-            <div className="flex justify-center">
-              <Button
-                label="Alterar senha"
-                variant="primary"
-                type="button"
-                onClick={handlePasswordSubmit}
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

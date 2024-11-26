@@ -1,21 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
 import { Button } from '../../../components/Button';
-import { Modal } from '../../../components/Modal';
-import { ResetPassword } from '../../reset_password';
 import { Input } from '../../../components/Input';
 
-// todo import api from '../../lib/api';
+import { AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
+import api from '../../../lib/api';
 
 export const SignInForm = () => {
-  // constantes que controlam a abertura e fechamento do modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const navigate = useNavigate();
 
   // constantes que controlam os dados do formulário
   const [formData, setFormData] = useState({
@@ -30,8 +23,21 @@ export const SignInForm = () => {
   };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    // todo api.post('/login', formData);
+    api
+      .post('http://localhost:3000/auth/login', formData)
+      .then((response: AxiosResponse) => {
+        console.log(response.data.access_token);
+
+        if (response.status === 201) {
+          localStorage.setItem('token', response.data.access_token);
+          window.location.href = '/home';
+        } else {
+          console.log('Usuário ou senha inválidos');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -68,16 +74,10 @@ export const SignInForm = () => {
           ></Input>
           <button
             className="flex text-xs underline text-cream-100"
-            onClick={handleOpenModal}
+            onClick={() => navigate('/forgot-password')}
           >
             Esqueci a senha
           </button>
-
-          {isModalOpen && (
-            <Modal title="Redefinição de senha" closeModal={handleCloseModal}>
-              <ResetPassword />
-            </Modal>
-          )}
         </div>
       </div>
 

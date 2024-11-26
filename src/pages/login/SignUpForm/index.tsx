@@ -1,14 +1,25 @@
 import React from 'react';
 import { useState } from 'react';
+import api from '../../../lib/api';
 import { Button } from '../../../components/Button';
 import { Input } from '../../../components/Input';
 
 export const SignUpForm = () => {
+  const bearerToken = localStorage.getItem('token');
+
   // constantes que controlam os dados do formulário
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
+    rolesType: ['guest'],
+    cep: '12246015',
+    public_place: 'Rua Professor Duilio Panziera',
+    number: '53',
+    complement: 'Apto 10, Bloco A',
+    cpf: '42137735075',
+    ddd: '11',
+    phone: '987659876',
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -18,7 +29,21 @@ export const SignUpForm = () => {
   };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    console.log(bearerToken);
+
+    api
+      .post('http://localhost:3000/user', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${bearerToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -70,6 +95,22 @@ export const SignUpForm = () => {
             required
             placeholder="Digite sua senha"
           ></Input>
+        </div>
+
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="role_input" className="text-cream-100 text-xs w-max">
+            Role
+          </label>
+          <select
+            id="role_input"
+            name="role"
+            required
+            value={formData.rolesType}
+            //onChange={handleChange}
+          >
+            <option value="guest">Guest</option>
+            <option value="admin">Admin</option>
+          </select>
         </div>
       </div>
 
