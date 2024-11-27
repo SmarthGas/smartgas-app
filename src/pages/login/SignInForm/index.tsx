@@ -11,6 +11,7 @@ export const SignInForm = () => {
   const { setUser } = useUser();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   // constantes que controlam os dados do formulário
   const [formData, setFormData] = useState({
@@ -24,6 +25,7 @@ export const SignInForm = () => {
     });
   };
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
     console.log(formData);
     try {
@@ -58,10 +60,15 @@ export const SignInForm = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   return (
-    <form id="form" className="flex flex-col space-y-6" onSubmit={handleSubmit}>
+    <form
+      id="sign-in-form"
+      className="flex flex-col space-y-6"
+      onSubmit={handleSubmit}
+    >
       <div className="space-y-6">
         <div className="flex flex-col space-y-2">
           <label htmlFor="email_input" className="text-cream-100 text-xs w-max">
@@ -94,7 +101,11 @@ export const SignInForm = () => {
           ></Input>
           <button
             className="flex text-xs underline text-cream-100"
-            onClick={() => navigate('/forgot-password')}
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/forgot-password');
+            }}
           >
             Esqueci a senha
           </button>
@@ -107,6 +118,8 @@ export const SignInForm = () => {
           variant="primary"
           className="w-max"
           type="submit"
+          loading={loading}
+          disabled={loading}
         />
       </div>
     </form>
