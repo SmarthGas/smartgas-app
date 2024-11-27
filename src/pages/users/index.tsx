@@ -8,7 +8,6 @@ import { User } from '../../types/user';
 import { ConfirmDeleteuser } from './confirmDeleteUser';
 import { DataGridBox } from '../../components/Datagrid';
 import { Section } from '../../components/Section';
-import api from '../../lib/api';
 
 export const Users = () => {
   const [modal, setModal] = useState({
@@ -37,8 +36,8 @@ export const Users = () => {
   };
 
   const getUsers = async () => {
-    const { data } = await api.get('/users');
-    console.log(data);
+    //const { data } = await api.get('/users');
+    //console.log(data);
   };
 
   useEffect(() => {

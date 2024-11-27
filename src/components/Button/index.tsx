@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import { icons } from '../Icons';
+import { CircleNotch } from '@phosphor-icons/react';
 
 type ButtonVariant = 'primary' | 'delete' | 'transparent';
 
@@ -9,6 +10,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: keyof typeof icons;
   label?: string;
   className?: string;
+  loading?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -16,6 +18,7 @@ export const Button: React.FC<ButtonProps> = ({
   icon,
   label,
   className,
+  loading,
   ...props
 }) => {
   return (
@@ -32,10 +35,16 @@ export const Button: React.FC<ButtonProps> = ({
       )}
       {...props}
     >
-      {icons[icon as keyof typeof icons] && (
-        <span>{icons[icon as keyof typeof icons]}</span>
+      {loading ? (
+        <CircleNotch className="animate-spin" weight="bold" />
+      ) : (
+        <>
+          {icons[icon as keyof typeof icons] && (
+            <span>{icons[icon as keyof typeof icons]}</span>
+          )}
+          {label && <p className="text-xs">{label}</p>}
+        </>
       )}
-      {label && <p className="text-xs">{label}</p>}
     </button>
   );
 };

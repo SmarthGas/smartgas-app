@@ -10,11 +10,13 @@ class HttpService {
   private client: AxiosInstance;
 
   constructor() {
+    const token = localStorage.getItem('token');
     this.client = axios.create({
       baseURL: import.meta.env.VITE_API_BASE_URL as string, // URL base da API
       timeout: 10000, // tempo limite em milissegundos (ajuste conforme necessário)
       headers: {
         'Content-Type': 'application/json',
+        Authorization: token ? `Bearer ${token}` : '', // Adiciona o token de autenticação se existir
       },
     });
 
