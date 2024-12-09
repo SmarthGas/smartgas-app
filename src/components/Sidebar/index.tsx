@@ -2,6 +2,8 @@ import { Info, Note, Package, SignOut, Users } from '@phosphor-icons/react';
 import React from 'react';
 import { Button } from '../Button';
 import { NavItem } from './NavItem';
+import { useUser } from '../../providers/userContext';
+import { useSnackbar } from 'notistack';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -9,9 +11,17 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
+  const { enqueueSnackbar } = useSnackbar();
+  const { logout } = useUser();
   const handleSignOut = () => {
-    console.log('fazendo signout');
+    try {
+      logout();
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar('Erro ao sair', { variant: 'error' });
+    }
   };
+
   return (
     <div
       className={`fixed top-0 left-0 w-64 h-full bg-brand-400 shadow-xl text-white transition-transform transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}

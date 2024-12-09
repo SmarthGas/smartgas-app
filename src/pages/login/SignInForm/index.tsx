@@ -4,12 +4,14 @@ import { Button } from '../../../components/Button';
 import { Input } from '../../../components/Input';
 import api from '../../../lib/api';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../../providers/userContext';
 import { useSnackbar } from 'notistack';
+import { useUser } from '../../../providers/userContext';
 
 export const SignInForm = () => {
-  const { setUser } = useUser();
   const { enqueueSnackbar } = useSnackbar();
+
+  const { fetchUser } = useUser();
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -36,30 +38,15 @@ export const SignInForm = () => {
 
       localStorage.setItem('token', data.access_token);
 
+      await fetchUser();
+
+      navigate('/users');
+
       enqueueSnackbar(data.message, { variant: 'success' });
     } catch (error) {
       console.log(error);
     }
 
-    try {
-      const { data } = await api.get<{
-        id: string;
-        name: string;
-        email: string;
-      }>('/auth/me');
-
-      setUser({
-        id: data.id,
-        name: data.name,
-        email: data.email,
-      });
-
-      console.log(data);
-
-      navigate('/users');
-    } catch (error) {
-      console.log(error);
-    }
     setLoading(false);
   };
 

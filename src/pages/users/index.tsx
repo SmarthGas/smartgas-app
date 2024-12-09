@@ -8,12 +8,17 @@ import { User } from '../../types/user';
 import { ConfirmDeleteuser } from './confirmDeleteUser';
 import { DataGridBox } from '../../components/Datagrid';
 import { Section } from '../../components/Section';
+import api from '../../lib/api';
+import { useSnackbar } from 'notistack';
 
 export const Users = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [modal, setModal] = useState({
     title: '',
     name: '',
   });
+
+  const [users, setUsers] = useState<User[]>([]);
 
   const [userToEdit, setUserToEdit] = useState<User>();
 
@@ -36,8 +41,19 @@ export const Users = () => {
   };
 
   const getUsers = async () => {
-    //const { data } = await api.get('/users');
-    //console.log(data);
+    try {
+      const { data: response } = await api.get<{
+        pagination: any;
+        data: User[];
+      }>('/user');
+      const { data: users } = response;
+      console.log(users);
+
+      setUsers(users);
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar('Erro ao buscar usuários', { variant: 'error' });
+    }
   };
 
   useEffect(() => {
@@ -46,7 +62,7 @@ export const Users = () => {
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
     {
-      field: 'firstName',
+      field: 'name',
       headerName: 'Nome',
       editable: true,
       headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
@@ -54,8 +70,8 @@ export const Users = () => {
       flex: 1,
     },
     {
-      field: 'lastName',
-      headerName: 'Sobrenome',
+      field: 'email',
+      headerName: 'E-mail',
       editable: true,
       headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
       headerAlign: 'center',
@@ -64,16 +80,54 @@ export const Users = () => {
     {
       field: 'cpf',
       headerName: 'CPF',
-      description: 'This column has a value getter and is not sortable.',
       sortable: false,
       headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
       headerAlign: 'center',
       flex: 2,
     },
     {
-      field: 'address',
-      headerName: 'Endereço',
-      description: 'This column has a value getter and is not sortable.',
+      field: 'cep',
+      headerName: 'CEP',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 2,
+    },
+    {
+      field: 'public_place',
+      headerName: 'Logradouro',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 2,
+    },
+    {
+      field: 'number',
+      headerName: 'Nº',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 1,
+    },
+    {
+      field: 'complement',
+      headerName: 'Complemento',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 2,
+    },
+    {
+      field: 'ddd',
+      headerName: 'DDD',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 1,
+    },
+    {
+      field: 'phone',
+      headerName: 'Telefone',
       sortable: false,
       headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
       headerAlign: 'center',
@@ -94,11 +148,16 @@ export const Users = () => {
             onClick={() => {
               handleEditUser({
                 id: String(params.row.id),
-                name: params.row.firstName,
-                lastName: params.row.lastName,
+                name: params.row.name,
+                rolesType: [],
                 email: params.row.email,
+                cep: params.row.cep,
                 cpf: params.row.cpf,
-                address: params.row.address,
+                public_place: params.row.public_place,
+                number: params.row.number,
+                complement: params.row.complement,
+                ddd: params.row.ddd,
+                phone: params.row.phone,
               });
             }}
           />
@@ -121,11 +180,16 @@ export const Users = () => {
             onClick={() =>
               handleDeleteUser({
                 id: String(params.row.id),
-                name: params.row.firstName,
-                lastName: params.row.lastName,
+                name: params.row.name,
                 email: params.row.email,
                 cpf: params.row.cpf,
-                address: params.row.address,
+                complement: params.row.complement,
+                cep: params.row.cep,
+                ddd: params.row.ddd,
+                phone: params.row.phone,
+                number: params.row.number,
+                public_place: params.row.public_place,
+                rolesType: [],
               })
             }
           />
@@ -134,35 +198,18 @@ export const Users = () => {
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      lastName: 'Snow',
-      firstName: 'Jon',
-      email: 'JonSnow@winter.com',
-      cpf: '123.123.123-12',
-      age: 14,
-      address: 'Rua dos Bobos, nº 0',
-    },
-    {
-      id: 2,
-      lastName: 'Lannister',
-      firstName: 'Cersei',
-      email: 'Cersei@lannister.com',
-      cpf: '123.123.123-12',
-      age: 31,
-      address: 'Rua dos Bobos, nº 0',
-    },
-    {
-      id: 3,
-      lastName: 'Lannister',
-      firstName: 'Jaime',
-      email: 'jaime@lannister.com',
-      cpf: '123.123.123-12',
-      age: 31,
-      address: 'Rua dos Bobos, nº 0',
-    },
-  ];
+  const rows = users.map((user) => ({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    cpf: user.cpf,
+    cep: user.cep,
+    public_place: user.public_place,
+    number: user.number,
+    complement: user.complement,
+    ddd: user.ddd,
+    phone: user.phone,
+  }));
 
   return (
     <>
@@ -177,7 +224,13 @@ export const Users = () => {
               })
             }
           >
-            <FormEditUser initialValues={userToEdit} setModal={setModal} />
+            {userToEdit && (
+              <FormEditUser
+                setUsers={setUsers}
+                selectedUser={userToEdit}
+                setModal={setModal}
+              />
+            )}
           </Modal>
         )}
         {modal.name === 'delete-user' && (

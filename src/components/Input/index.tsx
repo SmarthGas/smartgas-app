@@ -8,7 +8,7 @@ export const Input = ({ className, ...props }: InputProps) => {
   return (
     <>
       <input
-        className={`rounded-sm w-full outline-none text-dark px-2 text-xs py-1 ${className}`}
+        className={`rounded-sm w-full outline-none text-dark px-2 text-xs py-1 max-w-full ${className}`}
         {...props}
       />
     </>
