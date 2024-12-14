@@ -38,17 +38,6 @@ export const Supplier = () => {
     phone: 'Telefone',
   };
 
-  const supplierPrices = [
-    {
-      cilynderType: 'P13',
-      gasType: 'Nitrogênio',
-      price: 'R$ 100,00',
-      initialDate: '01/01/2021',
-      finalDate: '31/12/2021',
-      active: true,
-    },
-  ];
-
   const collumns: GridColDef<(typeof rows)[number]>[] = [
     {
       field: 'cilynderType',
@@ -107,7 +96,7 @@ export const Supplier = () => {
   ];
 
   return (
-    <Section>
+    <Section title="Fornecedor" backButton>
       <div className="flex flex-col gap-10">
         <div className="flex w-full text-cream-100 gap-10 flex-wrap pt-10">
           {Object.entries(supplierNormalized).map(([key, value]) => (
