@@ -7,6 +7,7 @@ import { ResetPassword } from './pages/reset_password';
 import { Login } from './pages/login';
 import { useUser } from './providers/userContext';
 import { Suppliers } from './pages/suppliers';
+import { Supplier } from './pages/supplier';
 
 interface PrivateRoutesProps {
   children: React.ReactNode;
@@ -68,6 +69,14 @@ export const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Suppliers />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/supplier/:supplierId"
+        element={
+          <PrivateRoute>
+            <Supplier />
           </PrivateRoute>
         }
       />

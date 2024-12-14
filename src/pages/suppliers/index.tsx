@@ -8,20 +8,22 @@ import { DataGridBox } from '../../components/Datagrid';
 import { Section } from '../../components/Section';
 import api from '../../lib/api';
 import { useSnackbar } from 'notistack';
-import { Supplier } from '../../types/supplier';
+import { SupplierType } from '../../types/supplier';
+import { useNavigate } from 'react-router-dom';
 
 export const Suppliers = () => {
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [modal, setModal] = useState({
     title: '',
     name: '',
   });
 
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const [suppliers, setSuppliers] = useState<SupplierType[]>([]);
 
-  const [supplierToEdit, setSupplierToEdit] = useState<Supplier>();
+  const [supplierToEdit, setSupplierToEdit] = useState<SupplierType>();
 
-  const [supplierToDelete, setSupplierToDelete] = useState<Supplier>();
+  const [supplierToDelete, setSupplierToDelete] = useState<SupplierType>();
 
   const handleEditSupplier = ({ supplierId }: { supplierId: string }) => {
     // setSupplierToEdit(supplier);
@@ -32,7 +34,7 @@ export const Suppliers = () => {
     });
   };
 
-  const handleDeleteSupplier = (supplier: Supplier) => {
+  const handleDeleteSupplier = (supplier: SupplierType) => {
     setSupplierToDelete(supplier);
     setModal({
       title: 'Deletar Fornecedor',
@@ -129,7 +131,7 @@ export const Suppliers = () => {
             label="Ver preços"
             icon="dollar"
             onClick={() => {
-              console.log(params.row.id);
+              navigate(`/supplier/${params.row.id}`);
             }}
           />
         </div>
@@ -202,7 +204,7 @@ export const Suppliers = () => {
 
   return (
     <>
-      <Section title="Usuários">
+      <Section title="Fornecedores">
         {modal.name === 'edit-user' && (
           <Modal
             title={modal.title}

@@ -1,5 +1,12 @@
-import { User } from './user';
-
-export interface Supplier extends Partial<User> {
+export type SupplierType = {
+  id: string;
+  name: string;
+  email: string;
+  cep: string;
   cnpj: string;
-}
+  public_place: string;
+  number: string;
+  complement: string;
+  ddd: string;
+  phone: string;
+};
