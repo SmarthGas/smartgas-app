@@ -1,5 +1,13 @@
 import React from 'react';
-import { Check, FloppyDisk, List, Pen, Trash, X } from '@phosphor-icons/react';
+import {
+  Check,
+  CurrencyDollar,
+  FloppyDisk,
+  List,
+  Pen,
+  Trash,
+  X,
+} from '@phosphor-icons/react';
 
 export const icons = {
   save: <FloppyDisk size={16} />,
@@ -8,4 +16,5 @@ export const icons = {
   close: <X size={16} />,
   list: <List size={16} />,
   check: <Check size={16} />,
+  dollar: <CurrencyDollar size={16} />,
 };
