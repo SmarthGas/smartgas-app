@@ -68,6 +68,15 @@ class HttpService {
   ): Promise<AxiosResponse<T>> {
     return this.client.put(url, data, config);
   }
+  // Método PATCH
+
+  public patch<T>(
+    url: string,
+    data: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
+    return this.client.patch(url, data, config);
+  }
 
   // Método DELETE
   public delete<T>(

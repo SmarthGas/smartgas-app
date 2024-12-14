@@ -1,5 +1,12 @@
 // src/context/UserContext.tsx
-import React, { createContext, useState, ReactNode, useContext } from 'react';
+import React, {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useEffect,
+} from 'react';
+import api from '../lib/api';
 
 // Definindo o tipo para o usuário
 interface User {
@@ -12,6 +19,8 @@ interface User {
 interface UserContextType {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  logout: () => void;
+  fetchUser: () => Promise<void>;
 }
 
 // Criando o contexto com um valor inicial
@@ -25,8 +34,39 @@ interface UserProviderProps {
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
+  const fetchUser = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    }
+    try {
+      const { data } = await api.get<{
+        id: string;
+        name: string;
+        email: string;
+      }>('/auth/me');
+
+      setUser(data);
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+      setUser(null);
+      localStorage.removeItem('token');
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('token');
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, logout, fetchUser }}>
       {children}
     </UserContext.Provider>
   );
