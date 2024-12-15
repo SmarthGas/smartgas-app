@@ -1,0 +1,10 @@
+import React from 'react';
+import { Section } from '../../components/Section';
+
+export const Home = () => {
+  return (
+    <Section>
+      <h1>Home</h1>
+    </Section>
+  );
+};
