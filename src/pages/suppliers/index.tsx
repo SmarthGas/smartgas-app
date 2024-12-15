@@ -10,6 +10,7 @@ import api from '../../lib/api';
 import { useSnackbar } from 'notistack';
 import { SupplierType } from '../../types/supplier';
 import { useNavigate } from 'react-router-dom';
+import { FormCreateSupplier } from './formCreateSupplier';
 
 export const Suppliers = () => {
   const navigate = useNavigate();
@@ -44,28 +45,14 @@ export const Suppliers = () => {
 
   const getSuppliers = async () => {
     try {
-      //   const { data: response } = await api.get<{
-      //     pagination: any;
-      //     data: Supplier[];
-      //   }>('/suppliers');
-      //   const { data: suppliers } = response;
-      //   console.log(suppliers);
+      const { data: response } = await api.get<{
+        pagination: any;
+        data: SupplierType[];
+      }>('/supplier');
+      const { data: suppliers } = response;
+      console.log(suppliers);
 
-      //Mock de dados
-      setSuppliers([
-        {
-          id: '1',
-          name: 'Fornecedor 1',
-          email: 'fornecedor@email.com',
-          cnpj: '123.456.789-00',
-          cep: '12345-678',
-          public_place: 'Rua das Flores',
-          number: '123',
-          complement: 'Casa',
-          ddd: '11',
-          phone: '12345-6789',
-        },
-      ]);
+      setSuppliers(suppliers);
     } catch (error) {
       console.error(error);
       enqueueSnackbar('Erro ao buscar usuários', { variant: 'error' });
@@ -198,13 +185,26 @@ export const Suppliers = () => {
     email: supplier.email,
     cnpj: supplier.cnpj,
     //address with cep, public_place, number and complement
-    address: `${supplier.cep}, ${supplier.public_place}, ${supplier.number}, ${supplier.complement}`,
-    phone: `(${supplier.ddd}) ${supplier.phone}`,
+    address: `${supplier.zipcode}, ${supplier.street}, ${supplier.streetNumber}, ${supplier.complement}`,
+    phone: `(${supplier.ddd}) ${supplier.cellphone}`,
   }));
 
   return (
     <>
       <Section title="Fornecedores">
+        {modal.name === 'add-supplier' && (
+          <Modal
+            title={modal.title}
+            closeModal={() =>
+              setModal({
+                title: '',
+                name: '',
+              })
+            }
+          >
+            <FormCreateSupplier setSuppliers={setSuppliers} />
+          </Modal>
+        )}
         {modal.name === 'edit-user' && (
           <Modal
             title={modal.title}
@@ -231,6 +231,19 @@ export const Suppliers = () => {
             <></>{' '}
           </Modal>
         )}
+        <div className="flex w-full justify-end">
+          <Button
+            variant="primary"
+            label="Adicionar Fornecedor"
+            icon="plus"
+            onClick={() => {
+              setModal({
+                title: 'Adicionar Fornecedor',
+                name: 'add-supplier',
+              });
+            }}
+          />
+        </div>
         <DataGridBox rows={rows} columns={columns} />
       </Section>
     </>

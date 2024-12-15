@@ -2,11 +2,11 @@ export type SupplierType = {
   id: string;
   name: string;
   email: string;
-  cep: string;
+  zipcode: string;
   cnpj: string;
-  public_place: string;
-  number: string;
+  street: string;
+  streetNumber: string;
   complement: string;
   ddd: string;
-  phone: string;
+  cellphone: string;
 };

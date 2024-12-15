@@ -6,6 +6,7 @@ import {
   FloppyDisk,
   List,
   Pen,
+  Plus,
   Trash,
   X,
 } from '@phosphor-icons/react';
@@ -19,4 +20,5 @@ export const icons = {
   check: <Check size={16} />,
   dollar: <CurrencyDollar size={16} />,
   arrowLeft: <ArrowLeft size={16} />,
+  plus: <Plus size={16} />,
 };
