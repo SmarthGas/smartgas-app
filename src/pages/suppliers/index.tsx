@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { GridColDef } from '@mui/x-data-grid';
 import type { } from '@mui/x-data-grid/themeAugmentation';
@@ -12,6 +11,7 @@ import { SupplierType } from '../../types/supplier';
 import { useNavigate } from 'react-router-dom';
 import { FormCreateSupplier } from './formCreateSupplier';
 import { ConfirmDeleteSupplier } from './confirmDeleteSupplier';
+import { FormEditSupplier } from './formEditSupplier';
 
 export const Suppliers = () => {
   const navigate = useNavigate();
@@ -40,9 +40,8 @@ export const Suppliers = () => {
     }
   };
 
-  const handleEditSupplier = ({ supplierId }: { supplierId: string }) => {
-    // setSupplierToEdit(supplier);
-    console.log(supplierId);
+  const handleEditSupplier = (supplier: SupplierType) => {
+    setSupplierToEdit(supplier);
     setModal({
       title: 'Editar Fornecedor',
       name: 'edit-supplier',
@@ -138,27 +137,36 @@ export const Suppliers = () => {
         </div>
       ),
     },
-    // {
-    //   field: 'edit',
-    //   headerName: 'Editar',
-    //   sortable: false,
-    //   headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
-    //   headerAlign: 'center',
-    //   flex: 1,
-    //   renderCell: (params) => (
-    //     <div className="flex h-full justify-center items-center">
-    //       <Button
-    //         variant="primary"
-    //         icon="edit"
-    //         onClick={() => {
-    //           handleEditSupplier({
-    //             supplierId: String(params.row.id),
-    //           });
-    //         }}
-    //       />
-    //     </div>
-    //   ),
-    // },
+    {
+      field: 'edit',
+      headerName: 'Editar',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 1,
+      renderCell: (params) => (
+        <div className="flex h-full justify-center items-center">
+          <Button
+            variant="primary"
+            icon="edit"
+            onClick={() => {
+              handleEditSupplier({
+                id: String(params.row.id),
+                name: params.row.name,
+                email: params.row.email,
+                zipcode: params.row.zipcode,
+                cnpj: params.row.cnpj,
+                street: params.row.street,
+                streetNumber: params.row.streetNumber,
+                complement: params.row.complement,
+                ddd: params.row.ddd,
+                cellphone: params.row.cellphone,
+              });
+            }}
+          />
+        </div>
+      ),
+    },
     {
       field: 'delete',
       headerName: 'Deletar',
@@ -220,7 +228,10 @@ export const Suppliers = () => {
               })
             }
           >
-            <FormCreateSupplier setSuppliers={setSuppliers} />
+            <FormCreateSupplier
+              setSuppliers={setSuppliers}
+              setModal={setModal}
+            />
           </Modal>
         )}
         {modal.name === 'edit-supplier' && (
@@ -233,7 +244,13 @@ export const Suppliers = () => {
               })
             }
           >
-            {supplierToEdit && <></>}
+            {supplierToEdit && (
+              <FormEditSupplier
+                setSuppliers={setSuppliers}
+                selectedSupplier={supplierToEdit}
+                setModal={setModal}
+              />
+            )}
           </Modal>
         )}
         {modal.name === 'delete-supplier' && (

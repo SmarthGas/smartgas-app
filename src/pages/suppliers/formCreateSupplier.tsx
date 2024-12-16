@@ -71,10 +71,14 @@ const validationSchema = Yup.object().shape({
 
 interface FormCreateSupplierProps {
   setSuppliers: React.Dispatch<React.SetStateAction<SupplierType[]>>;
+  setModal: React.Dispatch<
+    React.SetStateAction<{ title: string; name: string }>
+  >;
 }
 
 export const FormCreateSupplier = ({
   setSuppliers,
+  setModal,
 }: FormCreateSupplierProps) => {
   const handleSubmit = async (values: FormValues) => {
     try {
@@ -92,6 +96,7 @@ export const FormCreateSupplier = ({
       });
 
       setSuppliers((prev: any) => [...prev, data.supplier]);
+      setModal({ title: '', name: '' });
     } catch (error) {
       console.error(error);
     }
