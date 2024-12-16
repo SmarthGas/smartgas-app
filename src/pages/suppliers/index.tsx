@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { GridColDef } from '@mui/x-data-grid';
-import type {} from '@mui/x-data-grid/themeAugmentation';
+import type { } from '@mui/x-data-grid/themeAugmentation';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { DataGridBox } from '../../components/Datagrid';
@@ -11,6 +11,7 @@ import { useSnackbar } from 'notistack';
 import { SupplierType } from '../../types/supplier';
 import { useNavigate } from 'react-router-dom';
 import { FormCreateSupplier } from './formCreateSupplier';
+import { ConfirmDeleteSupplier } from './confirmDeleteSupplier';
 
 export const Suppliers = () => {
   const navigate = useNavigate();
@@ -25,6 +26,19 @@ export const Suppliers = () => {
   const [supplierToEdit, setSupplierToEdit] = useState<SupplierType>();
 
   const [supplierToDelete, setSupplierToDelete] = useState<SupplierType>();
+
+  const deleteSupplier = async (supplier: SupplierType) => {
+    try {
+      await api.delete(`/supplier/${supplier.id}`);
+      setSuppliers((prev) => prev.filter((s) => s.id !== supplier.id));
+      enqueueSnackbar('Fornecedor deletado com sucesso', {
+        variant: 'success',
+      });
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar('Erro ao deletar fornecedor', { variant: 'error' });
+    }
+  };
 
   const handleEditSupplier = ({ supplierId }: { supplierId: string }) => {
     // setSupplierToEdit(supplier);
@@ -145,38 +159,37 @@ export const Suppliers = () => {
     //     </div>
     //   ),
     // },
-    // {
-    //   field: 'delete',
-    //   headerName: 'Deletar',
-    //   sortable: false,
-    //   width: 160,
-    //   headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
-    //   headerAlign: 'center',
-    //   flex: 1,
-    //   renderCell: (params) => (
-    //     <div className="flex h-full justify-center items-center">
-    //       <Button
-    //         variant="delete"
-    //         icon="trash"
-    //         onClick={() =>
-    //           handleDeleteSupplier({
-    //             id: String(params.row.id),
-    //             name: params.row.name,
-    //             email: params.row.email,
-    //             cnpj: params.row.cnpj,
-    //             complement: params.row.complement,
-    //             cep: params.row.cep,
-    //             ddd: params.row.ddd,
-    //             phone: params.row.phone,
-    //             number: params.row.number,
-    //             public_place: params.row.public_place,
-    //             rolesType: [],
-    //           })
-    //         }
-    //       />
-    //     </div>
-    //   ),
-    // },
+    {
+      field: 'delete',
+      headerName: 'Deletar',
+      sortable: false,
+      width: 160,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 1,
+      renderCell: (params) => (
+        <div className="flex h-full justify-center items-center">
+          <Button
+            variant="delete"
+            icon="trash"
+            onClick={() =>
+              handleDeleteSupplier({
+                id: String(params.row.id),
+                name: params.row.name,
+                email: params.row.email,
+                zipcode: params.row.zipcode,
+                cnpj: params.row.cnpj,
+                street: params.row.street,
+                streetNumber: params.row.streetNumber,
+                complement: params.row.complement,
+                ddd: params.row.ddd,
+                cellphone: params.row.cellphone,
+              })
+            }
+          />
+        </div>
+      ),
+    },
   ];
 
   const rows = suppliers.map((supplier) => ({
@@ -184,7 +197,12 @@ export const Suppliers = () => {
     name: supplier.name,
     email: supplier.email,
     cnpj: supplier.cnpj,
-    //address with cep, public_place, number and complement
+    zipcode: supplier.zipcode,
+    street: supplier.street,
+    streetNumber: supplier.streetNumber,
+    complement: supplier.complement,
+    ddd: supplier.ddd,
+    cellphone: supplier.cellphone,
     address: `${supplier.zipcode}, ${supplier.street}, ${supplier.streetNumber}, ${supplier.complement}`,
     phone: `(${supplier.ddd}) ${supplier.cellphone}`,
   }));
@@ -205,7 +223,7 @@ export const Suppliers = () => {
             <FormCreateSupplier setSuppliers={setSuppliers} />
           </Modal>
         )}
-        {modal.name === 'edit-user' && (
+        {modal.name === 'edit-supplier' && (
           <Modal
             title={modal.title}
             closeModal={() =>
@@ -218,7 +236,7 @@ export const Suppliers = () => {
             {supplierToEdit && <></>}
           </Modal>
         )}
-        {modal.name === 'delete-user' && (
+        {modal.name === 'delete-supplier' && (
           <Modal
             title={modal.title}
             closeModal={() =>
@@ -228,7 +246,11 @@ export const Suppliers = () => {
               })
             }
           >
-            <></>{' '}
+            <ConfirmDeleteSupplier
+              supplier={supplierToDelete}
+              setModal={setModal}
+              deleteSupplier={deleteSupplier}
+            ></ConfirmDeleteSupplier>
           </Modal>
         )}
         <div className="flex w-full justify-end">
