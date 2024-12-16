@@ -10,3 +10,12 @@ export type SupplierType = {
   ddd: string;
   cellphone: string;
 };
+
+export type SupplierPriceType = {
+  id: string;
+  cylinderTypeId: string;
+  price: number;
+  startDate: string;
+  endDate: string;
+  active: string;
+};

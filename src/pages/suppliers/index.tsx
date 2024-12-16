@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { GridColDef } from '@mui/x-data-grid';
-import type { } from '@mui/x-data-grid/themeAugmentation';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { DataGridBox } from '../../components/Datagrid';
@@ -25,35 +24,23 @@ export const Suppliers = () => {
 
   const [supplierToEdit, setSupplierToEdit] = useState<SupplierType>();
 
-  const [supplierToDelete, setSupplierToDelete] = useState<SupplierType>();
+  const [supplierToDelete, setSupplierToDelete] = useState<string>('');
 
-  const deleteSupplier = async (supplier: SupplierType) => {
+  const deleteSupplier = async (supplierId: String) => {
     try {
-      await api.delete(`/supplier/${supplier.id}`);
-      setSuppliers((prev) => prev.filter((s) => s.id !== supplier.id));
+      await api.delete(`/supplier/${supplierId}`);
+      setSuppliers((prev) => prev.filter((s) => s.id !== supplierId));
       enqueueSnackbar('Fornecedor deletado com sucesso', {
         variant: 'success',
+      });
+      setModal({
+        title: '',
+        name: '',
       });
     } catch (error) {
       console.error(error);
       enqueueSnackbar('Erro ao deletar fornecedor', { variant: 'error' });
     }
-  };
-
-  const handleEditSupplier = (supplier: SupplierType) => {
-    setSupplierToEdit(supplier);
-    setModal({
-      title: 'Editar Fornecedor',
-      name: 'edit-supplier',
-    });
-  };
-
-  const handleDeleteSupplier = (supplier: SupplierType) => {
-    setSupplierToDelete(supplier);
-    setModal({
-      title: 'Deletar Fornecedor',
-      name: 'delete-supplier',
-    });
   };
 
   const getSuppliers = async () => {
@@ -102,15 +89,47 @@ export const Suppliers = () => {
       flex: 2,
     },
     {
-      field: 'address',
-      headerName: 'Endereço',
+      field: 'zipcode',
+      headerName: 'CEP',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 1,
+    },
+    {
+      field: 'street',
+      headerName: 'Logradouro',
       sortable: false,
       headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
       headerAlign: 'center',
       flex: 2,
     },
     {
-      field: 'phone',
+      field: 'streetNumber',
+      headerName: 'Número',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 1,
+    },
+    {
+      field: 'complement',
+      headerName: 'Complemento',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 2,
+    },
+    {
+      field: 'ddd',
+      headerName: 'DDD',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 1,
+    },
+    {
+      field: 'cellphone',
       headerName: 'Contato',
       sortable: false,
       headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
@@ -150,8 +169,8 @@ export const Suppliers = () => {
             variant="primary"
             icon="edit"
             onClick={() => {
-              handleEditSupplier({
-                id: String(params.row.id),
+              setSupplierToEdit({
+                id: params.row.id,
                 name: params.row.name,
                 email: params.row.email,
                 zipcode: params.row.zipcode,
@@ -161,6 +180,10 @@ export const Suppliers = () => {
                 complement: params.row.complement,
                 ddd: params.row.ddd,
                 cellphone: params.row.cellphone,
+              });
+              setModal({
+                title: 'Editar Fornecedor',
+                name: 'edit-supplier',
               });
             }}
           />
@@ -180,20 +203,13 @@ export const Suppliers = () => {
           <Button
             variant="delete"
             icon="trash"
-            onClick={() =>
-              handleDeleteSupplier({
-                id: String(params.row.id),
-                name: params.row.name,
-                email: params.row.email,
-                zipcode: params.row.zipcode,
-                cnpj: params.row.cnpj,
-                street: params.row.street,
-                streetNumber: params.row.streetNumber,
-                complement: params.row.complement,
-                ddd: params.row.ddd,
-                cellphone: params.row.cellphone,
-              })
-            }
+            onClick={() => {
+              setSupplierToDelete(params.row.id);
+              setModal({
+                title: 'Deletar Fornecedor',
+                name: 'delete-supplier',
+              });
+            }}
           />
         </div>
       ),
@@ -211,8 +227,6 @@ export const Suppliers = () => {
     complement: supplier.complement,
     ddd: supplier.ddd,
     cellphone: supplier.cellphone,
-    address: `${supplier.zipcode}, ${supplier.street}, ${supplier.streetNumber}, ${supplier.complement}`,
-    phone: `(${supplier.ddd}) ${supplier.cellphone}`,
   }));
 
   return (
@@ -264,10 +278,10 @@ export const Suppliers = () => {
             }
           >
             <ConfirmDeleteSupplier
-              supplier={supplierToDelete}
+              supplierToDelete={supplierToDelete}
               setModal={setModal}
               deleteSupplier={deleteSupplier}
-            ></ConfirmDeleteSupplier>
+            />
           </Modal>
         )}
         <div className="flex w-full justify-end">

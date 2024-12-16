@@ -1,9 +1,8 @@
 import React from 'react';
 import { Button } from '../../components/Button';
-import { SupplierType } from '../../types/supplier';
 
 interface ConfirmDeleteSupplierProps {
-  supplier: SupplierType | undefined;
+  supplierToDelete: String;
   setModal: React.Dispatch<
     React.SetStateAction<{ title: string; name: string }>
   >;
@@ -11,13 +10,12 @@ interface ConfirmDeleteSupplierProps {
 }
 
 export const ConfirmDeleteSupplier = ({
-  supplier,
-  setModal,
+  supplierToDelete,
   deleteSupplier,
 }: ConfirmDeleteSupplierProps) => {
   const handleConfirmDeleteSupplier = async () => {
-    if (supplier) {
-      await deleteSupplier(supplier);
+    if (supplierToDelete) {
+      await deleteSupplier(supplierToDelete);
     }
   };
 
@@ -35,7 +33,7 @@ export const ConfirmDeleteSupplier = ({
           variant="delete"
           label="Não"
           icon="close"
-          onClick={() => setModal({ title: '', name: '' })}
+          onClick={handleConfirmDeleteSupplier}
         />
       </div>
     </div>

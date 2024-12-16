@@ -3,17 +3,20 @@ import { Input } from '../../components/Input';
 import { useSnackbar } from 'notistack';
 import api from '../../lib/api';
 import { Button } from '../../components/Button';
+import { SupplierPriceType } from '../../types/supplier';
 
 interface AddCylinderProps {
   supplierId: string;
   setModal: React.Dispatch<
     React.SetStateAction<{ title: string; name: string }>
   >;
+  setSupplierPrices: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 export const AddCylinderPriceModal = ({
   supplierId,
   setModal,
+  setSupplierPrices,
 }: AddCylinderProps) => {
   const { enqueueSnackbar } = useSnackbar();
 
@@ -46,9 +49,22 @@ export const AddCylinderPriceModal = ({
         cylinders.length === 1 ? cylinders[0].id : selectedCylinderId,
     };
     try {
-      await api.post('/supplierPrice', addCylinderPriceData);
+      const { data } = await api.post<{
+        supplier: SupplierPriceType;
+      }>('/supplierPrice', addCylinderPriceData);
 
-      window.location.reload();
+      const cylinderPrice = {
+        id: data.supplier.id,
+        cylinderTypeId: data.supplier.cylinderTypeId,
+        price: data.supplier.price,
+        startDate: data.supplier.startDate,
+        endDate: data.supplier.endDate,
+        active: data.supplier.active ? 'Sim' : 'Não',
+      };
+
+      setSupplierPrices((prev) => [...prev, cylinderPrice]);
+
+      setModal({ title: '', name: '' });
 
       enqueueSnackbar('Preço do cilindro cadastrado com sucesso', {
         variant: 'success',
