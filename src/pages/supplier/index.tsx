@@ -1,41 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Section } from '../../components/Section';
 import { SupplierType } from '../../types/supplier';
 import { DataGridBox } from '../../components/Datagrid';
 import { GridColDef } from '@mui/x-data-grid';
+import api from '../../lib/api';
 
 export const Supplier = () => {
   const { supplierId } = useParams();
 
-  const supplier: SupplierType = {
-    id: supplierId || '1',
-    name: 'Fornecedor 1',
-    email: 'supplier@email.com',
-    cnpj: '123.456.789-00',
-    cep: '12345-678',
-    public_place: 'Rua das Flores',
-    number: '123',
-    complement: 'Galpão G',
-    ddd: '11',
-    phone: '12345-6789',
-  };
-
-  const supplierNormalized = {
-    name: supplier.name,
-    email: supplier.email,
-    cnpj: supplier.cnpj,
-    address: `${supplier.public_place}, ${supplier.number} - ${supplier.complement}`,
-    phone: `(${supplier.ddd}) ${supplier.phone}`,
-  };
+  const [supplier, setSupplier] = useState<SupplierType>();
 
   const supplierFieldsEnum: { [key: string]: string } = {
     id: 'ID',
     name: 'Nome',
     email: 'Email',
     cnpj: 'CNPJ',
-    address: 'Endereço',
-    phone: 'Telefone',
+    street: 'Rua',
+    streetNumber: 'Número',
+    complement: 'Complemento',
+    zipcode: 'CEP',
+    ddd: 'DDD',
+    cellphone: 'Celular',
   };
 
   const collumns: GridColDef<(typeof rows)[number]>[] = [
@@ -83,6 +69,31 @@ export const Supplier = () => {
     },
   ];
 
+  const getSupplier = async () => {
+    try {
+      const { data } = await api.get<SupplierType>(`/supplier/${supplierId}`);
+      console.log(data);
+      setSupplier({
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        cnpj: data.cnpj,
+        street: data.street,
+        streetNumber: data.streetNumber,
+        zipcode: data.zipcode,
+        ddd: data.ddd,
+        cellphone: data.cellphone,
+        complement: data.complement,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getSupplier();
+  }, []);
+
   const rows: any[] = [
     {
       id: '1',
@@ -99,12 +110,17 @@ export const Supplier = () => {
     <Section title="Fornecedor" backButton>
       <div className="flex flex-col gap-10">
         <div className="flex w-full text-cream-100 gap-10 flex-wrap pt-10">
-          {Object.entries(supplierNormalized).map(([key, value]) => (
-            <div key={key} className="flex gap-2">
-              <span className="font-bold text-xs">{`${supplierFieldsEnum[key]}:`}</span>
-              <span className="text-xs">{value}</span>
-            </div>
-          ))}
+          {supplier &&
+            Object.entries(supplier).map(
+              ([key, value]) =>
+                key &&
+                value && (
+                  <div key={key} className="flex gap-2">
+                    <span className="font-bold text-xs">{`${supplierFieldsEnum[key]}:`}</span>
+                    <span className="text-xs">{value}</span>
+                  </div>
+                )
+            )}
         </div>
         <DataGridBox rows={rows} columns={collumns} />
       </div>
