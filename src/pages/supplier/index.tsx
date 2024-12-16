@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Section } from '../../components/Section';
-import { SupplierType } from '../../types/supplier';
+import { SupplierPriceType, SupplierType } from '../../types/supplier';
 import api from '../../lib/api';
 import { SupplierPrices } from './supplierPrices';
+import { Button } from '../../components/Button';
+import { Modal } from '../../components/Modal';
+import { AddCylinderPriceModal } from './addCilynderPriceModal';
 
 export const Supplier = () => {
   const { supplierId } = useParams();
 
+  const [modal, setModal] = useState({
+    title: '',
+    name: '',
+  });
+
   const [supplier, setSupplier] = useState<SupplierType>();
+
+  const [selectedSupplierPriceIdToDelete, setSelectedSupplierPriceIdToDelete] =
+    useState<string>('');
 
   const supplierFieldsEnum: { [key: string]: string } = {
     id: 'ID',
@@ -49,10 +60,94 @@ export const Supplier = () => {
     getSupplier();
   }, []);
 
-  console.log('render page');
+  const [supplierPrices, setSupplierPrices] = useState<SupplierPriceType[]>([]);
+
+  const getSupplierPrices = async () => {
+    try {
+      const { data: response } = await api.get<{
+        data: SupplierPriceType[];
+      }>('/supplierPrice', {
+        params: {
+          supplierId,
+        },
+      });
+
+      const cylinderPrices = response.data.map(
+        (cylinderSupplier: SupplierPriceType) => ({
+          id: cylinderSupplier.id,
+          cylinderTypeId: cylinderSupplier.cylinderTypeId,
+          price: cylinderSupplier.price,
+          startDate: cylinderSupplier.startDate,
+          endDate: cylinderSupplier.endDate,
+          active: cylinderSupplier.active ? 'Sim' : 'Não',
+        })
+      );
+
+      console.log(cylinderPrices);
+      setSupplierPrices(cylinderPrices);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteSupplierPrice = async (id: string) => {
+    try {
+      await api.delete(`/supplierPrice/${id}`);
+      getSupplierPrices();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getSupplierPrices();
+  }, []);
 
   return (
     <>
+      {modal.name === 'delete-supplierPrice' && (
+        <Modal
+          title={modal.title}
+          closeModal={() => setModal({ title: '', name: '' })}
+        >
+          <div className="flex py-4 w-full">
+            <p>Você tem certeza de que deseja deletar este item? </p>
+          </div>
+          <div className="flex w-full justify-end gap-2">
+            <Button
+              label="Sim"
+              icon="check"
+              variant="primary"
+              onClick={() => {
+                if (selectedSupplierPriceIdToDelete) {
+                  deleteSupplierPrice(selectedSupplierPriceIdToDelete);
+                  setModal({ title: '', name: '' });
+                } else {
+                  setModal({ title: '', name: '' });
+                }
+              }}
+            />
+            <Button
+              label="Não"
+              icon="close"
+              variant="delete"
+              onClick={() => setModal({ title: '', name: '' })}
+            />
+          </div>
+        </Modal>
+      )}
+      {modal.name === 'add-cilynder-price' && supplierId && (
+        <Modal
+          title={modal.title}
+          closeModal={() => setModal({ title: '', name: '' })}
+        >
+          <AddCylinderPriceModal
+            supplierId={supplierId}
+            setModal={setModal}
+            setSupplierPrices={setSupplierPrices}
+          />
+        </Modal>
+      )}
       {supplierId && (
         <Section title="Fornecedor" backButton>
           <div className="flex flex-col gap-10">
@@ -70,8 +165,35 @@ export const Supplier = () => {
                 )}
             </div>
             <div className="flex w-full border border-cream-100/50" />
+
             <div className="flex flex-col gap-4">
-              <SupplierPrices supplierId={supplierId} />
+              <div className="flex w-full justify-end">
+                <Button
+                  label="Adicionar Cilindro"
+                  icon="plus"
+                  variant="primary"
+                  onClick={() =>
+                    setModal({
+                      title: 'Adicionar Preço de Cilindro',
+                      name: 'add-cilynder-price',
+                    })
+                  }
+                />
+              </div>
+              {supplierPrices.length > 0 ? (
+                <SupplierPrices
+                  supplierId={supplierId}
+                  supplierPrices={supplierPrices || []}
+                  setModal={setModal}
+                  setSelectedSupplierPriceIdToDelete={
+                    setSelectedSupplierPriceIdToDelete
+                  }
+                />
+              ) : (
+                <div className="flex w-full justify-center text-cream-100">
+                  Não há preços cadastrados
+                </div>
+              )}
             </div>
           </div>
         </Section>
