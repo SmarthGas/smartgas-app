@@ -10,12 +10,13 @@ interface AddCylinderProps {
   setModal: React.Dispatch<
     React.SetStateAction<{ title: string; name: string }>
   >;
-  setSupplierPrices: React.Dispatch<React.SetStateAction<any[]>>;
+  setSupplierPrices: React.Dispatch<React.SetStateAction<SupplierPriceType[]>>;
 }
 
 export const AddCylinderPriceModal = ({
   supplierId,
   setModal,
+  // eslint-disable-next-line no-unused-vars
   setSupplierPrices,
 }: AddCylinderProps) => {
   const { enqueueSnackbar } = useSnackbar();
@@ -32,7 +33,6 @@ export const AddCylinderPriceModal = ({
         cylinders: any[];
       }>('/Cylinders');
       const { cylinders } = response;
-      console.log(cylinders);
 
       setCyllinders(cylinders);
     } catch (error) {
@@ -49,20 +49,27 @@ export const AddCylinderPriceModal = ({
         cylinders.length === 1 ? cylinders[0].id : selectedCylinderId,
     };
     try {
+      // eslint-disable-next-line no-unused-vars
       const { data } = await api.post<{
-        supplier: SupplierPriceType;
+        supplier: any;
       }>('/supplierPrice', addCylinderPriceData);
 
-      const cylinderPrice = {
-        id: data.supplier.id,
-        cylinderTypeId: data.supplier.cylinderTypeId,
-        price: data.supplier.price,
-        startDate: data.supplier.startDate,
-        endDate: data.supplier.endDate,
-        active: data.supplier.active ? 'Sim' : 'Não',
-      };
+      //   const cylinderPrice: SupplierPriceType = {
+      //     id: data.supplier.id,
+      //     CylinderType: {
+      //       id: data.supplier.cylinderTypeId,
+      //       gasType: data.supplier.gasType,
+      //       size: data.supplier.size,
+      //     },
+      //     price: data.supplier.price,
+      //     startDate: data.supplier.startDate,
+      //     endDate: data.supplier.endDate,
+      //     active: data.supplier.active ? 'Sim' : 'Não',
+      //   };
 
-      setSupplierPrices((prev) => [...prev, cylinderPrice]);
+      // setSupplierPrices((prev) => [...prev, cylinderPrice]);
+
+      window.location.reload();
 
       setModal({ title: '', name: '' });
 
@@ -96,7 +103,9 @@ export const AddCylinderPriceModal = ({
             }}
           >
             {cylinders?.map((cylinder) => (
-              <option value={cylinder.id}>{cylinder.id}</option>
+              <option
+                value={cylinder.id}
+              >{`Cilindro ${cylinder.gasType.gasName} ${cylinder.size} ${cylinder.gasType.measurementUnit}`}</option>
             ))}
           </select>
         </div>
