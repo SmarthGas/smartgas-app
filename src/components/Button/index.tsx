@@ -31,7 +31,8 @@ export const Button: React.FC<ButtonProps> = ({
           'bg-delete hover:bg-delete/75 text-cream-100': variant === 'delete',
           'bg-transparent hover:bg-black/5 text-cream-100':
             variant === 'transparent',
-        }
+        },
+        props.disabled && 'opacity-50 cursor-not-allowed'
       )}
       {...props}
     >

@@ -86,7 +86,6 @@ export const ForgotPassword = () => {
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

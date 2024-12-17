@@ -6,10 +6,11 @@ import { Header } from '../Header';
 interface SectionProps {
   children: React.ReactNode;
   title?: string;
+  backButton?: boolean;
 }
 
-export const Section = ({ children, title }: SectionProps) => {
-  const [isOpenSideBar, setIsOpenSideBar] = useState(false);
+export const Section = ({ children, title, backButton }: SectionProps) => {
+  const [isOpenSideBar, setIsOpenSideBar] = useState(true);
   const toggleSidebar = () => {
     setIsOpenSideBar(!isOpenSideBar);
   };
@@ -25,7 +26,7 @@ export const Section = ({ children, title }: SectionProps) => {
       <div
         className={`flex-grow flex-col gap-4 flex py-4 px-6 transition-all duration-300 ${isOpenSideBar ? 'pl-[300px]' : 'pl-10'}`}
       >
-        <Header title={title} />
+        <Header title={title} showBackButton={backButton} />
         {children}
       </div>
     </div>
