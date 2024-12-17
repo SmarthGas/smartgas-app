@@ -18,7 +18,7 @@ export const Modal = ({ title, children, closeModal }: ModalProps) => {
         >
           <header className="flex justify-between items-center">
             <h1>{title}</h1>
-            <X size={24} onClick={closeModal} />
+            <X size={24} onClick={closeModal} className="cursor-pointer" />
           </header>
           <main className="px-8">{children}</main>
         </div>
