@@ -4,6 +4,7 @@ import {
   Note,
   Package,
   SignOut,
+  User,
   Users,
 } from '@phosphor-icons/react';
 import React from 'react';
@@ -61,6 +62,9 @@ export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
           </li>
           <li>
             <NavItem icon={<Note size={16} />} title="Pedidos" to="/orders" />
+          </li>
+          <li>
+            <NavItem icon={<User size={16} />} title="Clientes" to="/clients" />
           </li>
           <li>
             <NavItem icon={<Info size={16} />} title="Sobre" to="/about" />
