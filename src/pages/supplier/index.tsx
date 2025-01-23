@@ -7,6 +7,7 @@ import { SupplierPrices } from './supplierPrices';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { AddCylinderPriceModal } from './addCilynderPriceModal';
+import { GasType } from '../../types/gasType';
 
 export const Supplier = () => {
   const { supplierId } = useParams();
@@ -72,10 +73,12 @@ export const Supplier = () => {
         },
       });
 
-      const cylinderPrices = response.data.map(
+      const cylinderPrices: SupplierPriceType[] = response.data.map(
         (cylinderSupplier: SupplierPriceType) => ({
           id: cylinderSupplier.id,
-          cylinderTypeId: cylinderSupplier.cylinderTypeId,
+          CylinderType: cylinderSupplier.CylinderType,
+          cylinderTypeId: cylinderSupplier.CylinderType.id,
+          gasType: cylinderSupplier.CylinderType.gasType as GasType,
           price: cylinderSupplier.price,
           startDate: cylinderSupplier.startDate,
           endDate: cylinderSupplier.endDate,

@@ -2,6 +2,7 @@ import React from 'react';
 import { DataGridBox } from '../../components/Datagrid';
 import { GridColDef } from '@mui/x-data-grid';
 import { Button } from '../../components/Button';
+import { SupplierPriceType } from '../../types/supplier';
 
 interface SupplierPricesProps {
   supplierId: string;
@@ -21,10 +22,24 @@ export const SupplierPrices = ({
 }: SupplierPricesProps) => {
   const collumns: GridColDef<(typeof rows)[number]>[] = [
     {
-      field: 'cylinderTypeId',
-      headerName: 'ID Tipo de Cilindro',
-      flex: 1, // Tamanho da coluna
-      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      field: 'gasName',
+      headerName: 'Tipo de Gás',
+      flex: 1,
+      headerClassName: 'font-bold text-cream-100',
+      headerAlign: 'center',
+    },
+    {
+      field: 'size',
+      headerName: 'Tamanho',
+      flex: 1,
+      headerClassName: 'font-bold text-cream-100',
+      headerAlign: 'center',
+    },
+    {
+      field: 'measurementUnit',
+      headerName: 'Unidade',
+      flex: 1,
+      headerClassName: 'font-bold text-cream-100',
       headerAlign: 'center',
     },
     {
@@ -80,7 +95,24 @@ export const SupplierPrices = ({
       ),
     },
   ];
-  const rows: any[] = supplierPrices || [];
+  const rows: {
+    id: string;
+    gasName: string;
+    price: number;
+    startDate: string;
+    endDate: string;
+    active: string;
+  }[] = supplierPrices.map((price: SupplierPriceType) => ({
+    id: price.id,
+    gasName: price.CylinderType.gasType.gasName,
+    size: price.CylinderType.size,
+
+    measurementUnit: price.CylinderType.gasType.measurementUnit,
+    price: price.price,
+    startDate: price.startDate,
+    endDate: price.endDate,
+    active: price.active ? 'Sim' : 'Não',
+  }));
   return (
     <>
       <DataGridBox rows={rows} columns={collumns} />;
