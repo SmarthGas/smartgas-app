@@ -1,3 +1,5 @@
+import { CylinderType } from './cylinder';
+
 export type SupplierType = {
   id: string;
   name: string;
@@ -13,7 +15,7 @@ export type SupplierType = {
 
 export type SupplierPriceType = {
   id: string;
-  cylinderTypeId: string;
+  CylinderType: CylinderType;
   price: number;
   startDate: string;
   endDate: string;
