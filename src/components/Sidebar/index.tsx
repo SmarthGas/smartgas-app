@@ -11,6 +11,7 @@ import { Button } from '../Button';
 import { NavItem } from './NavItem';
 import { useUser } from '../../providers/userContext';
 import { useSnackbar } from 'notistack';
+import { User } from '@phosphor-icons/react/dist/ssr';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -61,6 +62,9 @@ export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
           </li>
           <li>
             <NavItem icon={<Note size={16} />} title="Pedidos" to="/orders" />
+          </li>
+          <li>
+            <NavItem icon={<User size={16} />} title="Clientes" to="/clients" />
           </li>
           <li>
             <NavItem icon={<Info size={16} />} title="Sobre" to="/about" />
