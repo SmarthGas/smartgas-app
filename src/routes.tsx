@@ -11,7 +11,7 @@ import { Supplier } from './pages/supplier';
 import { Clients } from './pages/clients';
 import { Client } from './pages/client';
 import { Orders } from './pages/orders';
-import { CreateOrder } from './pages/CreateOrder';
+import { CreateOrder } from './pages/create_order';
 
 interface PrivateRoutesProps {
   children: React.ReactNode;

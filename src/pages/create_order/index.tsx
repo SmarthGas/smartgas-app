@@ -9,26 +9,51 @@ export const CreateOrder = () => {
   const [cilynderTypes, setCilynderTypes] = useState<any[]>([]);
 
   const getCilynderTypes = async () => {
-    const { data: response } = await api.get<{ data: CylinderType[] }>(
-      '/cylindersType'
-    );
+    // const { data: response } = await api.get<{ data: CylinderType[] }>(
+    //   '/cylindersType'
+    // );
 
-    console.log('response', response.data);
+    // console.log('response', response.data);
 
-    const cilynders: any[] = response.data.map((cilynder: any) => {
-      return {
-        id: cilynder.id,
-        name: cilynder.name,
-        description: cilynder.description,
-        gasType: cilynder.gasType.gasName,
-        size: cilynder.size,
+    // const cilynders: any[] = response.data.map((cilynder: any) => {
+    //   return {
+    //     id: cilynder.id,
+    //     name: cilynder.name,
+    //     description: cilynder.description,
+    //     gasType: cilynder.gasType.gasName,
+    //     size: cilynder.size,
+    //     quantity: 1,
+    //   };
+    // });
+
+    const mockCilynders = [
+      {
+        id: '1',
+        name: 'Cilindro 1',
+        description: 'Cilindro de teste',
+        gasType: 'Oxigênio',
+        size: 'P',
         quantity: 1,
-      };
-    });
+      },
+      {
+        id: '2',
+        name: 'Cilindro 2',
+        description: 'Cilindro de teste',
+        gasType: 'Nitrogênio',
+        size: 'M',
+        quantity: 1,
+      },
+      {
+        id: '3',
+        name: 'Cilindro 3',
+        description: 'Cilindro de teste',
+        gasType: 'CO2',
+        size: 'G',
+        quantity: 1,
+      },
+    ];
 
-    console.log('cilynders', cilynders);
-
-    setCilynderTypes(cilynders);
+    setCilynderTypes(mockCilynders);
   };
 
   useEffect(() => {
@@ -115,6 +140,25 @@ export const CreateOrder = () => {
     };
   });
 
+  const createOrder = async () => {
+    const order  = cilynderTypes.map((cilynder) => {
+      return {
+        id: cilynder.id,
+        quantity: cilynder.quantity,
+      };
+    });
+
+    console.log('order', order);
+
+    // try {
+    //   await api.post('/orders', {
+    //     order,
+    //   });
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
+
   return (
     <Section title="Criar Pedido" backButton>
       <div>
@@ -123,7 +167,12 @@ export const CreateOrder = () => {
         </div>
       </div>
       <div className="flex justify-end">
-        <Button label="Criar Pedido" icon="check" variant="primary" />
+        <Button
+          label="Criar Pedido"
+          icon="check"
+          variant="primary"
+          onClick={createOrder}
+        />
       </div>
     </Section>
   );
