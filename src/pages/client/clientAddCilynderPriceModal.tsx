@@ -6,20 +6,20 @@ import { Button } from '../../components/Button';
 import { SupplierPriceType } from '../../types/supplier';
 import { CylinderType } from '../../types/cylinder';
 
-interface AddCylinderProps {
-  supplierId: string;
+interface ClientAddCylinderProps {
+  clientId: string;
   setModal: React.Dispatch<
     React.SetStateAction<{ title: string; name: string }>
   >;
-  setSupplierPrices: React.Dispatch<React.SetStateAction<SupplierPriceType[]>>;
+  setClientPrices: React.Dispatch<React.SetStateAction<SupplierPriceType[]>>;
 }
 
-export const AddCylinderPriceModal = ({
-  supplierId,
+export const ClientAddCylinderPriceModal = ({
+  clientId,
   setModal,
   // eslint-disable-next-line no-unused-vars
-  setSupplierPrices,
-}: AddCylinderProps) => {
+  setClientPrices,
+}: ClientAddCylinderProps) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [cylinders, setCyllinders] = useState<any[]>([]);
@@ -44,7 +44,7 @@ export const AddCylinderPriceModal = ({
 
   const postCylinderPrice = async () => {
     const addCylinderPriceData = {
-      supplierId,
+      clientId,
       price,
       cylinderTypeId:
         cylinders.length === 1 ? cylinders[0].id : selectedCylinderId,
@@ -53,7 +53,7 @@ export const AddCylinderPriceModal = ({
       // eslint-disable-next-line no-unused-vars
       const { data } = await api.post<{
         supplier: any;
-      }>('/supplierPrice', addCylinderPriceData);
+      }>('/clientPrice', addCylinderPriceData);
 
       //   const cylinderPrice: SupplierPriceType = {
       //     id: data.supplier.id,

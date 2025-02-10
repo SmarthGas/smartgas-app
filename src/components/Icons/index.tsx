@@ -5,6 +5,7 @@ import {
   CurrencyDollar,
   FloppyDisk,
   List,
+  Minus,
   Pen,
   Plus,
   Trash,
@@ -21,4 +22,5 @@ export const icons = {
   dollar: <CurrencyDollar size={16} />,
   arrowLeft: <ArrowLeft size={16} />,
   plus: <Plus size={16} />,
+  minus: <Minus size={16} />,
 };
