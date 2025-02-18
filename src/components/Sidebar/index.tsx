@@ -50,9 +50,9 @@ export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
           <li>
             <NavItem icon={<Users size={16} />} title="Usuários" to="/users" />
           </li>
-          <li>
+          {/* <li>
             <NavItem icon={<Package size={16} />} title="Estoque" to="/stock" />
-          </li>
+          </li> */}
           <li>
             <NavItem
               icon={<HandCoins size={16} />}
@@ -60,15 +60,15 @@ export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
               to="/suppliers"
             />
           </li>
-          <li>
+          {/* <li>
             <NavItem icon={<Note size={16} />} title="Pedidos" to="/orders" />
-          </li>
+          </li> */}
           <li>
             <NavItem icon={<User size={16} />} title="Clientes" to="/clients" />
           </li>
-          <li>
+          {/* <li>
             <NavItem icon={<Info size={16} />} title="Sobre" to="/about" />
-          </li>
+          </li> */}
         </ul>
         <div className="flex flex-col justify-end h-full">
           <div onClick={handleSignOut}>
