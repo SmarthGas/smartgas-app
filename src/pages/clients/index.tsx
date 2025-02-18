@@ -11,9 +11,10 @@ import { FormCreateClient } from './formCreateClient';
 import { ConfirmDeleteClient } from './confirmDeleteClient';
 import { FormEditClient } from './formEditClient';
 import { ClientType } from '../../types/client';
+import { useNavigate } from 'react-router-dom';
 
 export const Clients = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [modal, setModal] = useState({
     title: '',
@@ -135,6 +136,26 @@ export const Clients = () => {
       headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
       headerAlign: 'center',
       flex: 2,
+    },
+    {
+      field: 'see-prices',
+      headerName: 'Preços',
+      sortable: false,
+      headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
+      headerAlign: 'center',
+      flex: 2,
+      renderCell: (params) => (
+        <div className="flex h-full justify-center items-center">
+          <Button
+            variant="primary"
+            icon="dollar"
+            onClick={() => {
+              navigate(`/client/${params.row.id}`);
+            }}
+            label="Ver Preços"
+          />
+        </div>
+      ),
     },
     {
       field: 'edit',
