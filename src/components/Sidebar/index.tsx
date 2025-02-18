@@ -1,11 +1,4 @@
-import {
-  HandCoins,
-  Info,
-  Note,
-  Package,
-  SignOut,
-  Users,
-} from '@phosphor-icons/react';
+import { HandCoins, SignOut, Users } from '@phosphor-icons/react';
 import React from 'react';
 import { Button } from '../Button';
 import { NavItem } from './NavItem';
