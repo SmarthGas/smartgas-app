@@ -9,6 +9,9 @@ import { useUser } from './providers/userContext';
 import { Suppliers } from './pages/suppliers';
 import { Supplier } from './pages/supplier';
 import { Clients } from './pages/clients';
+import { Client } from './pages/client';
+import { Orders } from './pages/orders';
+import { CreateOrder } from './pages/create_order';
 
 interface PrivateRoutesProps {
   children: React.ReactNode;
@@ -86,6 +89,30 @@ export const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Clients />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/client/:clientId"
+        element={
+          <PrivateRoute>
+            <Client />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <PrivateRoute>
+            <Orders />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/create-order"
+        element={
+          <PrivateRoute>
+            <CreateOrder />
           </PrivateRoute>
         }
       />

@@ -1,3 +1,5 @@
+import { CylinderType } from './cylinder';
+
 export type ClientType = {
   id: string;
   name: string;
@@ -9,4 +11,13 @@ export type ClientType = {
   complement: string;
   ddd: string;
   cellphone: string;
+};
+
+export type ClientPriceType = {
+  id: string;
+  CylinderType: CylinderType;
+  price: number;
+  startDate: string;
+  endDate: string;
+  active: string;
 };
