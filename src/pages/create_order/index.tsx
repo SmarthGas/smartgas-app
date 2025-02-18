@@ -17,10 +17,6 @@ export const CreateOrder = () => {
 
   const [cilynderTypes, setCilynderTypes] = useState<any[]>([]);
 
-  const [order, setOrder] = useState<any>();
-
-  const [items, setItems] = useState<any[]>([]);
-
   const getCilynderTypes = async () => {
     const { data: response } = await api.get<{ data: CylinderType[] }>(
       '/cylinderType'
