@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const Orders = () => {
   const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
   const [orders, setOrders] = useState<any[]>([
     {
       id: 1,
