@@ -30,7 +30,7 @@ export const AddCylinderPriceModal = ({
   const getCilynderTypes = async () => {
     try {
       const { data: response } = await api.get<{ data: CylinderType[] }>(
-        '/cylinderType'
+        '/cylinder-type'
       );
 
       const cylinders: CylinderType[] = response.data;
@@ -53,7 +53,7 @@ export const AddCylinderPriceModal = ({
       // eslint-disable-next-line no-unused-vars
       const { data } = await api.post<{
         supplier: any;
-      }>('/supplierPrice', addCylinderPriceData);
+      }>('/supplier-price', addCylinderPriceData);
 
       //   const cylinderPrice: SupplierPriceType = {
       //     id: data.supplier.id,
