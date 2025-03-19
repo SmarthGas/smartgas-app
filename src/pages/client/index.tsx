@@ -65,7 +65,7 @@ export const Client = () => {
   //     try {
   //       const { data: response } = await api.get<{
   //         data: ClientPriceType[];
-  //       }>('/supplierPrice', {
+  //       }>('/supplier-price', {
   //         params: {
   //           clientId,
   //         },
@@ -93,7 +93,7 @@ export const Client = () => {
 
   //   const deleteSupplierPrice = async (id: string) => {
   //     try {
-  //       await api.delete(`/supplierPrice/${id}`);
+  //       await api.delete(`/supplier-price/${id}`);
   //       getSupplierPrices();
   //     } catch (error) {
   //       console.error(error);

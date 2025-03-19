@@ -23,7 +23,7 @@ export const CreateOrder = () => {
 
   const getCilynderTypes = async () => {
     const { data: response } = await api.get<{ data: CylinderType[] }>(
-      '/cylinderType'
+      '/cylinder-type'
     );
 
     const cilynders: any[] = response.data.map((cilynder: any) => {
@@ -48,7 +48,7 @@ export const CreateOrder = () => {
 
   const getGasTypes = async () => {
     try {
-      const { data } = await api.get<{ data: any[] }>('/gasType');
+      const { data } = await api.get<{ data: any[] }>('/gas-type');
       console.log('data', data);
       //setGastTypes(data);
     } catch (error) {
@@ -178,7 +178,7 @@ export const CreateOrder = () => {
     console.log('order', order);
 
     // try {
-    //   await api.post('/orders', {
+    //   await api.post('/order', {
     //     order,
     //   });
     // } catch (error) {

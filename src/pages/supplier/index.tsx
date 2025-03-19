@@ -95,7 +95,7 @@ export const Supplier = () => {
 
   const deleteSupplierPrice = async (id: string) => {
     try {
-      await api.delete(`/supplierPrice/${id}`);
+      await api.delete(`/supplier-price/${id}`);
       getSupplierPrices();
     } catch (error) {
       console.error(error);
