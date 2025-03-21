@@ -75,7 +75,10 @@ export const SupplierPrices = ({
   }[] = supplierPrices.map((price: SupplierPriceType) => ({
     id: price.id,
     cylinderTypeId: price.cylinderTypeId,
-    price: price.price,
+    price: `R$ ${Number(price.price).toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`,
     active: price.active ? 'Sim' : 'Não',
   }));
   return (

@@ -7,7 +7,6 @@ import { SupplierPrices } from './supplierPrices';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { AddCylinderPriceModal } from './addCilynderPriceModal';
-import { GasType } from '../../types/gasType';
 
 export const Supplier = () => {
   const { supplierId } = useParams();
