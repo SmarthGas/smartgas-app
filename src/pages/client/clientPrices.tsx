@@ -2,7 +2,7 @@ import React from 'react';
 import { DataGridBox } from '../../components/Datagrid';
 import { GridColDef } from '@mui/x-data-grid';
 import { Button } from '../../components/Button';
-import { SupplierPriceType } from '../../types/supplier';
+import { ClientPriceType } from '../../types/client';
 
 interface ClientPricesProps {
   clientId: string;
@@ -22,22 +22,8 @@ export const ClientPrices = ({
 }: ClientPricesProps) => {
   const collumns: GridColDef<(typeof rows)[number]>[] = [
     {
-      field: 'gasName',
+      field: 'cylinderTypeId',
       headerName: 'Tipo de Gás',
-      flex: 1,
-      headerClassName: 'font-bold text-cream-100',
-      headerAlign: 'center',
-    },
-    {
-      field: 'size',
-      headerName: 'Tamanho',
-      flex: 1,
-      headerClassName: 'font-bold text-cream-100',
-      headerAlign: 'center',
-    },
-    {
-      field: 'measurementUnit',
-      headerName: 'Unidade',
       flex: 1,
       headerClassName: 'font-bold text-cream-100',
       headerAlign: 'center',
@@ -45,20 +31,6 @@ export const ClientPrices = ({
     {
       field: 'price',
       headerName: 'Preço',
-      flex: 1,
-      headerClassName: 'font-bold text-cream-100',
-      headerAlign: 'center',
-    },
-    {
-      field: 'startDate',
-      headerName: 'Data Inicial',
-      flex: 1,
-      headerClassName: 'font-bold text-cream-100',
-      headerAlign: 'center',
-    },
-    {
-      field: 'endDate',
-      headerName: 'Data Final',
       flex: 1,
       headerClassName: 'font-bold text-cream-100',
       headerAlign: 'center',
@@ -97,22 +69,16 @@ export const ClientPrices = ({
   ];
   const rows: {
     id: string;
-    gasName: string;
+    cylinderTypeId: string;
     price: number;
-    startDate: string;
-    endDate: string;
     active: string;
-  }[] = clientPrices.map((price: SupplierPriceType) => ({
+  }[] = clientPrices.map((price: ClientPriceType) => ({
     id: price.id,
-    gasName: price.CylinderType.gasType.gasName,
-    size: price.CylinderType.size,
-
-    measurementUnit: price.CylinderType.gasType.measurementUnit,
+    cylinderTypeId: price.cylinderTypeId,
     price: price.price,
-    startDate: price.startDate,
-    endDate: price.endDate,
-    active: price.active ? 'Sim' : 'Não',
+    active: price.active,
   }));
+
   return (
     <>
       <DataGridBox rows={rows} columns={collumns} />;

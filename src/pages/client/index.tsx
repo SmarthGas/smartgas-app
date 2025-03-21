@@ -61,35 +61,25 @@ export const Client = () => {
 
   const [clientPrices, setClientPrices] = useState<ClientPriceType[]>([]);
 
-  //   const getSupplierPrices = async () => {
-  //     try {
-  //       const { data: response } = await api.get<{
-  //         data: ClientPriceType[];
-  //       }>('/supplier-price', {
-  //         params: {
-  //           clientId,
-  //         },
-  //       });
+  const getClientPrices = async () => {
+    try {
+      const { data: response } = await api.get<{
+        data: ClientPriceType[];
+      }>('/client-price', {
+        params: {
+          clientId,
+        },
+      });
 
-  //       const cylinderPrices: ClientPriceType[] = response.data.map(
-  //         (cylinderSupplier: ClientPriceType) => ({
-  //           id: cylinderSupplier.id,
-  //           CylinderType: cylinderSupplier.CylinderType,
-  //           cylinderTypeId: cylinderSupplier.CylinderType.id,
-  //           gasType: cylinderSupplier.CylinderType.gasType as GasType,
-  //           price: cylinderSupplier.price,
-  //           startDate: cylinderSupplier.startDate,
-  //           endDate: cylinderSupplier.endDate,
-  //           active: cylinderSupplier.active ? 'Sim' : 'Não',
-  //         })
-  //       );
+      const { data } = response;
 
-  //       console.log(cylinderPrices);
-  //       setSupplierPrices(cylinderPrices);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+      console.log(data);
+
+      setClientPrices(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   //   const deleteSupplierPrice = async (id: string) => {
   //     try {
@@ -100,9 +90,9 @@ export const Client = () => {
   //     }
   //   };
 
-  //   useEffect(() => {
-  //     getSupplierPrices();
-  //   }, []);
+  useEffect(() => {
+    getClientPrices();
+  }, []);
 
   return (
     <>
@@ -143,11 +133,12 @@ export const Client = () => {
           title={modal.title}
           closeModal={() => setModal({ title: '', name: '' })}
         >
-          <ClientAddCylinderPriceModal
+          <></>
+          {/* <ClientAddCylinderPriceModal
             clientId={clientId}
             setModal={setModal}
             setClientPrices={setClientPrices}
-          />
+          /> */}
         </Modal>
       )}
       {clientId && (

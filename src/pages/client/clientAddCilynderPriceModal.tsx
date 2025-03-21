@@ -30,7 +30,7 @@ export const ClientAddCylinderPriceModal = ({
   const getCilynderTypes = async () => {
     try {
       const { data: response } = await api.get<{ data: CylinderType[] }>(
-        '/cylindersType'
+        '/cylinder-type'
       );
 
       const cylinders: CylinderType[] = response.data;
@@ -46,29 +46,17 @@ export const ClientAddCylinderPriceModal = ({
     const addCylinderPriceData = {
       clientId,
       price,
-      cylinderTypeId:
-        cylinders.length === 1 ? cylinders[0].id : selectedCylinderId,
+      cylinderTypeId: !selectedCylinderId
+        ? cylinders[0].id
+        : selectedCylinderId,
     };
+
+    console.log(addCylinderPriceData);
     try {
       // eslint-disable-next-line no-unused-vars
       const { data } = await api.post<{
         supplier: any;
-      }>('/clientPrice', addCylinderPriceData);
-
-      //   const cylinderPrice: SupplierPriceType = {
-      //     id: data.supplier.id,
-      //     CylinderType: {
-      //       id: data.supplier.cylinderTypeId,
-      //       gasType: data.supplier.gasType,
-      //       size: data.supplier.size,
-      //     },
-      //     price: data.supplier.price,
-      //     startDate: data.supplier.startDate,
-      //     endDate: data.supplier.endDate,
-      //     active: data.supplier.active ? 'Sim' : 'Não',
-      //   };
-
-      // setSupplierPrices((prev) => [...prev, cylinderPrice]);
+      }>('/client-price', addCylinderPriceData);
 
       window.location.reload();
 

@@ -1,14 +1,20 @@
 import React from 'react';
 
 import { Box } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, DataGridProps, GridColDef } from '@mui/x-data-grid';
 
-interface DataGridBoxProps {
+interface DataGridBoxProps extends DataGridProps<any> {
   rows: any[];
   columns: GridColDef<any>[];
+  disableColumnMenu?: boolean;
 }
 
-export const DataGridBox = ({ rows, columns }: DataGridBoxProps) => {
+export const DataGridBox = ({
+  rows,
+  columns,
+  disableColumnMenu = true,
+  ...props
+}: DataGridBoxProps) => {
   return (
     <Box
       sx={{
@@ -30,7 +36,7 @@ export const DataGridBox = ({ rows, columns }: DataGridBoxProps) => {
         }}
         pageSizeOptions={[5]}
         disableRowSelectionOnClick
-        disableColumnMenu
+        disableColumnMenu={disableColumnMenu}
         disableColumnSorting
         sx={{
           '& .MuiDataGrid-columnHeader:focus': {
@@ -70,6 +76,7 @@ export const DataGridBox = ({ rows, columns }: DataGridBoxProps) => {
           boxShadow: '0 0 4px 3px #002126',
           fontSize: '12px',
         }}
+        {...props}
       />
     </Box>
   );
