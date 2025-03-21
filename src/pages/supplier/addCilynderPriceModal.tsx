@@ -100,7 +100,6 @@ export const AddCylinderPriceModal = ({
             value={selectedCylinderId}
             onChange={(e) => {
               setCylinderId(e.target.value);
-              console.log(e.target.value);
             }}
           >
             {cylinders?.map((cylinder) => (

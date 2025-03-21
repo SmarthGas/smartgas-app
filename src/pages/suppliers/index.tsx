@@ -50,7 +50,6 @@ export const Suppliers = () => {
         data: SupplierType[];
       }>('/supplier');
       const { data: suppliers } = response;
-      console.log(suppliers);
 
       setSuppliers(suppliers);
     } catch (error) {

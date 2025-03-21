@@ -29,7 +29,6 @@ export const SignInForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true);
     e.preventDefault();
-    console.log(formData);
     try {
       const { data } = await api.post<{
         message: string;

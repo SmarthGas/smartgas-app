@@ -51,14 +51,11 @@ export const ClientAddCylinderPriceModal = ({
         : selectedCylinderId,
     };
 
-    console.log(addCylinderPriceData);
     try {
       const { data } = await api.post<ClientPriceType>(
         '/client-price',
         addCylinderPriceData
       );
-
-      console.log(data);
 
       setClientPrices((prev) => [...prev, data]);
 
@@ -90,7 +87,6 @@ export const ClientAddCylinderPriceModal = ({
             value={selectedCylinderId}
             onChange={(e) => {
               setCylinderId(e.target.value);
-              console.log(e.target.value);
             }}
           >
             {cylinders?.map((cylinder) => (

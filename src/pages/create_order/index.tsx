@@ -49,7 +49,6 @@ export const CreateOrder = () => {
   const getGasTypes = async () => {
     try {
       const { data } = await api.get<{ data: any[] }>('/gas-type');
-      console.log('data', data);
       //setGastTypes(data);
     } catch (error) {
       enqueueSnackbar('Erro ao buscar os tipos de gás', { variant: 'error' });
@@ -175,7 +174,6 @@ export const CreateOrder = () => {
       };
     });
 
-    console.log('order', order);
 
     // try {
     //   await api.post('/order', {

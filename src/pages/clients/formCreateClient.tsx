@@ -82,7 +82,6 @@ export const FormCreateClient = ({
 }: FormCreateClientProps) => {
   const handleSubmit = async (values: FormValues) => {
     try {
-      console.log(values);
 
       const {
         data,

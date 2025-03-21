@@ -16,15 +16,10 @@ export const ResetPassword = () => {
   const token = params.get('token');
   const { userId } = useParams();
 
-  useEffect(() => {
-    console.log('user id:', userId);
-  }, []);
 
   const handlePasswordSubmit = () => {
     // TODO: fazer a requisição à API para redefinir a senha
     // e.preventDefault();
-    console.log('data: ', newPassword, confirmPassword, userId);
-
     // Verificar se as senhas coincidem e enviar à API
     if (newPassword === confirmPassword) {
       console.log('Bearer token:', token);

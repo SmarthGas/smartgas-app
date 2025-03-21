@@ -51,7 +51,6 @@ export const Clients = () => {
         data: ClientType[];
       }>('/client');
       const { data: clients } = response;
-      console.log(clients);
 
       setClients(clients);
     } catch (error) {

@@ -37,10 +37,8 @@ export const Client = () => {
   };
 
   const getClient = async () => {
-    console.log('getSupplier');
     try {
       const { data } = await api.get<ClientType>(`/client/${clientId}`);
-      console.log(data);
       setClient({
         id: data.id,
         name: data.name,
@@ -83,7 +81,6 @@ export const Client = () => {
 
       const { data } = response;
 
-      console.log(data);
 
       enqueueSnackbar('Preços do cliente buscados com sucesso', {
         variant: 'success',

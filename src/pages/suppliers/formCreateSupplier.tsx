@@ -82,7 +82,6 @@ export const FormCreateSupplier = ({
 }: FormCreateSupplierProps) => {
   const handleSubmit = async (values: FormValues) => {
     try {
-      console.log(values);
 
       const {
         data,
