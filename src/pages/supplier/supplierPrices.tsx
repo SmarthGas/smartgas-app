@@ -70,7 +70,7 @@ export const SupplierPrices = ({
   const rows: {
     id: string;
     cylinderTypeId: string;
-    price: number;
+    price: string;
     active: string;
   }[] = supplierPrices.map((price: SupplierPriceType) => ({
     id: price.id,
