@@ -3,21 +3,21 @@ import { Input } from '../../components/Input';
 import { useSnackbar } from 'notistack';
 import api from '../../lib/api';
 import { Button } from '../../components/Button';
-import { SupplierPriceType } from '../../types/supplier';
 import { CylinderType } from '../../types/cylinder';
+import { ClientPriceType } from '../../types/client';
 
 interface ClientAddCylinderProps {
   clientId: string;
   setModal: React.Dispatch<
     React.SetStateAction<{ title: string; name: string }>
   >;
-  setClientPrices: React.Dispatch<React.SetStateAction<SupplierPriceType[]>>;
+  setClientPrices: React.Dispatch<React.SetStateAction<ClientPriceType[]>>;
 }
 
 export const ClientAddCylinderPriceModal = ({
   clientId,
   setModal,
-  // eslint-disable-next-line no-unused-vars
+
   setClientPrices,
 }: ClientAddCylinderProps) => {
   const { enqueueSnackbar } = useSnackbar();
@@ -53,12 +53,14 @@ export const ClientAddCylinderPriceModal = ({
 
     console.log(addCylinderPriceData);
     try {
-      // eslint-disable-next-line no-unused-vars
-      const { data } = await api.post<{
-        supplier: any;
-      }>('/client-price', addCylinderPriceData);
+      const { data } = await api.post<ClientPriceType>(
+        '/client-price',
+        addCylinderPriceData
+      );
 
-      window.location.reload();
+      console.log(data);
+
+      setClientPrices((prev) => [...prev, data]);
 
       setModal({ title: '', name: '' });
 

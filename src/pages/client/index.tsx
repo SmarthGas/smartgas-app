@@ -5,10 +5,13 @@ import api from '../../lib/api';
 import { Button } from '../../components/Button';
 import { Section } from '../../components/Section';
 import { Modal } from '../../components/Modal';
-import { ClientAddCylinderPriceModal } from './clientAddCilynderPriceModal';
 import { ClientPrices } from './clientPrices';
+import { ClientAddCylinderPriceModal } from './clientAddCilynderPriceModal';
+import { useSnackbar } from 'notistack';
 export const Client = () => {
   const { clientId } = useParams();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const [modal, setModal] = useState({
     title: '',
@@ -17,7 +20,7 @@ export const Client = () => {
 
   const [client, setClient] = useState<ClientType>();
 
-  const [selectedClientPriceIdToDelete, setSelectedClientPriceIdToDelete] =
+  const [selectedCylinderTypeIdToDelete, setSelectedCylinderTypeIdToDelete] =
     useState<string>('');
 
   const clientFieldsEnum: { [key: string]: string } = {
@@ -50,7 +53,14 @@ export const Client = () => {
         cellphone: data.cellphone,
         complement: data.complement,
       });
+
+      enqueueSnackbar('Cliente buscado com sucesso', {
+        variant: 'success',
+      });
     } catch (error) {
+      enqueueSnackbar('Erro ao buscar cliente', {
+        variant: 'error',
+      });
       console.error(error);
     }
   };
@@ -75,20 +85,36 @@ export const Client = () => {
 
       console.log(data);
 
+      enqueueSnackbar('Preços do cliente buscados com sucesso', {
+        variant: 'success',
+      });
+
       setClientPrices(data);
     } catch (error) {
+      enqueueSnackbar('Erro ao buscar preços do cliente', {
+        variant: 'error',
+      });
       console.error(error);
     }
   };
 
-  //   const deleteSupplierPrice = async (id: string) => {
-  //     try {
-  //       await api.delete(`/supplier-price/${id}`);
-  //       getSupplierPrices();
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  const deleteClientPrice = async (cylinderTypeId: string) => {
+    try {
+      await api.delete(`/client-price/${clientId}/${cylinderTypeId}`);
+      setClientPrices(
+        clientPrices.filter((price) => price.cylinderTypeId !== cylinderTypeId)
+      );
+
+      enqueueSnackbar('Preço do cilindro deletado com sucesso', {
+        variant: 'success',
+      });
+    } catch (error) {
+      enqueueSnackbar('Erro ao deletar preço do cilindro', {
+        variant: 'error',
+      });
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     getClientPrices();
@@ -96,13 +122,17 @@ export const Client = () => {
 
   return (
     <>
-      {/* {modal.name === 'delete-supplierPrice' && (
+      {modal.name === 'delete-client-price' && (
         <Modal
           title={modal.title}
           closeModal={() => setModal({ title: '', name: '' })}
         >
-          <div className="flex py-4 w-full">
+          <div className="flex py-8 flex-col gap-4 max-w-[400px]">
             <p>Você tem certeza de que deseja deletar este item? </p>
+            <p>
+              Ao deletar esse item, TODOS os registros desse tipo de gás e
+              tamanho erao apagados{' '}
+            </p>
           </div>
           <div className="flex w-full justify-end gap-2">
             <Button
@@ -110,8 +140,8 @@ export const Client = () => {
               icon="check"
               variant="primary"
               onClick={() => {
-                if (selectedSupplierPriceIdToDelete) {
-                  deleteSupplierPrice(selectedSupplierPriceIdToDelete);
+                if (selectedCylinderTypeIdToDelete) {
+                  deleteClientPrice(selectedCylinderTypeIdToDelete);
                   setModal({ title: '', name: '' });
                 } else {
                   setModal({ title: '', name: '' });
@@ -127,18 +157,18 @@ export const Client = () => {
           </div>
         </Modal>
       )}
-        */}
+
       {modal.name === 'client-add-cilynder-price' && clientId && (
         <Modal
           title={modal.title}
           closeModal={() => setModal({ title: '', name: '' })}
         >
           <></>
-          {/* <ClientAddCylinderPriceModal
+          <ClientAddCylinderPriceModal
             clientId={clientId}
             setModal={setModal}
             setClientPrices={setClientPrices}
-          /> */}
+          />
         </Modal>
       )}
       {clientId && (
@@ -178,8 +208,8 @@ export const Client = () => {
                   clientId={clientId}
                   clientPrices={clientPrices || []}
                   setModal={setModal}
-                  setSelectedClientPriceIdToDelete={
-                    setSelectedClientPriceIdToDelete
+                  setSelectedCylinderTypeIdToDelete={
+                    setSelectedCylinderTypeIdToDelete
                   }
                 />
               ) : (

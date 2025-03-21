@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DataGridBox } from '../../components/Datagrid';
 import { GridColDef } from '@mui/x-data-grid';
 import { Button } from '../../components/Button';
 import { ClientPriceType } from '../../types/client';
+import { Input } from '../../components/Input';
 
 interface ClientPricesProps {
   clientId: string;
@@ -10,7 +11,7 @@ interface ClientPricesProps {
   setModal: React.Dispatch<
     React.SetStateAction<{ title: string; name: string }>
   >;
-  setSelectedClientPriceIdToDelete: React.Dispatch<
+  setSelectedCylinderTypeIdToDelete: React.Dispatch<
     React.SetStateAction<string>
   >;
 }
@@ -18,7 +19,7 @@ interface ClientPricesProps {
 export const ClientPrices = ({
   clientPrices,
   setModal,
-  setSelectedClientPriceIdToDelete,
+  setSelectedCylinderTypeIdToDelete,
 }: ClientPricesProps) => {
   const collumns: GridColDef<(typeof rows)[number]>[] = [
     {
@@ -55,10 +56,10 @@ export const ClientPrices = ({
             icon="trash"
             onClick={() => {
               {
-                setSelectedClientPriceIdToDelete(params.row.id);
+                setSelectedCylinderTypeIdToDelete(params.row.cylinderTypeId);
                 setModal({
                   title: 'Excluir Preço',
-                  name: 'delete-supplierPrice',
+                  name: 'delete-client-price',
                 });
               }
             }}
@@ -79,9 +80,40 @@ export const ClientPrices = ({
     active: price.active,
   }));
 
+  const [filters, setFilters] = useState({
+    active: true,
+  });
+
+  const formatedRows = rows
+    .filter((row) => {
+      return filters.active ? row.active : true;
+    })
+    .map((row) => {
+      return {
+        ...row,
+        active: row.active ? 'Sim' : 'Não',
+        price: `R$ ${Number(row.price).toLocaleString('pt-BR', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`,
+      };
+    });
+
   return (
     <>
-      <DataGridBox rows={rows} columns={collumns} />;
+      <div className="flex w-fit items-center justify-center gap-2  ">
+        <p className="text-xs">Exibir apenas preços ativos</p>
+        <span>
+          <Input
+            type="checkbox"
+            onChange={(e) => {
+              setFilters({ active: e.target.checked });
+            }}
+            checked={filters.active}
+          />
+        </span>
+      </div>
+      <DataGridBox rows={formatedRows} columns={collumns} />;
     </>
   );
 };
