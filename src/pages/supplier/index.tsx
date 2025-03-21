@@ -67,7 +67,7 @@ export const Supplier = () => {
     try {
       const { data: response } = await api.get<{
         data: SupplierPriceType[];
-      }>('/supplierPrice', {
+      }>('/supplier-price', {
         params: {
           supplierId,
         },
@@ -76,12 +76,8 @@ export const Supplier = () => {
       const cylinderPrices: SupplierPriceType[] = response.data.map(
         (cylinderSupplier: SupplierPriceType) => ({
           id: cylinderSupplier.id,
-          CylinderType: cylinderSupplier.CylinderType,
-          cylinderTypeId: cylinderSupplier.CylinderType.id,
-          gasType: cylinderSupplier.CylinderType.gasType as GasType,
+          cylinderTypeId: cylinderSupplier.cylinderTypeId,
           price: cylinderSupplier.price,
-          startDate: cylinderSupplier.startDate,
-          endDate: cylinderSupplier.endDate,
           active: cylinderSupplier.active ? 'Sim' : 'Não',
         })
       );
@@ -153,7 +149,7 @@ export const Supplier = () => {
       )}
       {supplierId && (
         <Section title="Fornecedor" backButton>
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-10 max-h-[calc(100vh-200px)] overflow-auto px-8">
             <div className="flex w-full text-cream-100 gap-10 flex-wrap pt-10">
               {supplier &&
                 Object.entries(supplier).map(

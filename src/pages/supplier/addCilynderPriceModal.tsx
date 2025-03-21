@@ -17,7 +17,7 @@ interface AddCylinderProps {
 export const AddCylinderPriceModal = ({
   supplierId,
   setModal,
-  // eslint-disable-next-line no-unused-vars
+
   setSupplierPrices,
 }: AddCylinderProps) => {
   const { enqueueSnackbar } = useSnackbar();
@@ -46,31 +46,23 @@ export const AddCylinderPriceModal = ({
     const addCylinderPriceData = {
       supplierId,
       price,
-      cylinderTypeId:
-        cylinders.length === 1 ? cylinders[0].id : selectedCylinderId,
+      cylinderTypeId: !selectedCylinderId
+        ? cylinders[0].id
+        : selectedCylinderId,
     };
     try {
-      // eslint-disable-next-line no-unused-vars
       const { data } = await api.post<{
         supplier: any;
       }>('/supplier-price', addCylinderPriceData);
 
-      //   const cylinderPrice: SupplierPriceType = {
-      //     id: data.supplier.id,
-      //     CylinderType: {
-      //       id: data.supplier.cylinderTypeId,
-      //       gasType: data.supplier.gasType,
-      //       size: data.supplier.size,
-      //     },
-      //     price: data.supplier.price,
-      //     startDate: data.supplier.startDate,
-      //     endDate: data.supplier.endDate,
-      //     active: data.supplier.active ? 'Sim' : 'Não',
-      //   };
+      const cylinderPrice: SupplierPriceType = {
+        id: data.supplier.id,
+        cylinderTypeId: data.supplier.cylinderTypeId,
+        price: data.supplier.price,
+        active: data.supplier.active ? 'Sim' : 'Não',
+      };
 
-      // setSupplierPrices((prev) => [...prev, cylinderPrice]);
-
-      window.location.reload();
+      setSupplierPrices((prev) => [...prev, cylinderPrice]);
 
       setModal({ title: '', name: '' });
 

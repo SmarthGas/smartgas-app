@@ -32,3 +32,32 @@
     animation: logo-spin infinite 20s linear;
   }
 }
+
+/* Estilizando a barra de rolagem */
+::-webkit-scrollbar {
+  width: 5px; /* Largura da barra de rolagem */
+  height: 10px; /* Altura da barra de rolagem (para rolagem horizontal) */
+  background: transparent; /* Sem fundo */
+}
+
+/* Estilizando o fundo da barra de rolagem (não visível por padrão) */
+::-webkit-scrollbar-track {
+  background: transparent; /* Sem fundo */
+}
+
+/* Estilizando o polegar da barra de rolagem (parte que se move) */
+::-webkit-scrollbar-thumb {
+  background: #888; /* Cor do polegar */
+  border-radius: 10px;
+  opacity: 0; /* Inicialmente invisível */
+  transition: opacity 0.3s ease; /* Transição suave para mostrar */
+}
+
+/* Mostrar o polegar quando o usuário interagir com a barra */
+::-webkit-scrollbar:hover {
+  width: 12px; /* Aumentar a largura quando o hover for aplicado */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 1; /* Torna o polegar visível ao interagir */
+}
