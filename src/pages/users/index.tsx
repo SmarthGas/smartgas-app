@@ -47,7 +47,6 @@ export const Users = () => {
         data: User[];
       }>('/user');
       const { data: users } = response;
-      console.log(users);
 
       setUsers(users);
     } catch (error) {
@@ -94,7 +93,7 @@ export const Users = () => {
       flex: 2,
     },
     {
-      field: 'public_place',
+      field: 'street',
       headerName: 'Logradouro',
       sortable: false,
       headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
@@ -102,7 +101,7 @@ export const Users = () => {
       flex: 2,
     },
     {
-      field: 'number',
+      field: 'streetNumber',
       headerName: 'Nº',
       sortable: false,
       headerClassName: 'font-bold text-cream-100', // Estilo para cabeçalho
@@ -153,8 +152,8 @@ export const Users = () => {
                 email: params.row.email,
                 cep: params.row.cep,
                 cpf: params.row.cpf,
-                public_place: params.row.public_place,
-                number: params.row.number,
+                street: params.row.street,
+                streetNumber: params.row.streetNumber,
                 complement: params.row.complement,
                 ddd: params.row.ddd,
                 phone: params.row.phone,
@@ -187,8 +186,8 @@ export const Users = () => {
                 cep: params.row.cep,
                 ddd: params.row.ddd,
                 phone: params.row.phone,
-                number: params.row.number,
-                public_place: params.row.public_place,
+                streetNumber: params.row.streetNumber,
+                street: params.row.street,
                 rolesType: [],
               })
             }
@@ -198,18 +197,21 @@ export const Users = () => {
     },
   ];
 
-  const rows = users.map((user) => ({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    cpf: user.cpf,
-    cep: user.cep,
-    public_place: user.public_place,
-    number: user.number,
-    complement: user.complement,
-    ddd: user.ddd,
-    phone: user.phone,
-  }));
+  const rows = users.map((user) => {
+    const row = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      cpf: user.cpf,
+      cep: user.cep,
+      street: user.street,
+      streetNumber: user.streetNumber,
+      complement: user.complement,
+      ddd: user.ddd,
+      phone: user.phone,
+    };
+    return row;
+  });
 
   return (
     <>

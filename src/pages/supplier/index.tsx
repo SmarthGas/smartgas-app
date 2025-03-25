@@ -36,10 +36,8 @@ export const Supplier = () => {
   };
 
   const getSupplier = async () => {
-    console.log('getSupplier');
     try {
       const { data } = await api.get<SupplierType>(`/supplier/${supplierId}`);
-      console.log(data);
       setSupplier({
         id: data.id,
         name: data.name,
@@ -86,7 +84,6 @@ export const Supplier = () => {
         })
       );
 
-      console.log(cylinderPrices);
       setSupplierPrices(cylinderPrices);
     } catch (error) {
       console.error(error);

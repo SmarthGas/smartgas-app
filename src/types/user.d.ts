@@ -5,8 +5,8 @@ export type User = {
   email: string;
   cep: string;
   cpf: string;
-  public_place: string;
-  number: string;
+  street: string;
+  streetNumber: string;
   complement: string;
   ddd: string;
   phone: string;
