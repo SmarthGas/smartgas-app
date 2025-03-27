@@ -51,10 +51,6 @@ export const Client = () => {
         cellphone: data.cellphone,
         complement: data.complement,
       });
-
-      enqueueSnackbar('Cliente buscado com sucesso', {
-        variant: 'success',
-      });
     } catch (error) {
       enqueueSnackbar('Erro ao buscar cliente', {
         variant: 'error',
@@ -80,11 +76,6 @@ export const Client = () => {
       });
 
       const { data } = response;
-
-
-      enqueueSnackbar('Preços do cliente buscados com sucesso', {
-        variant: 'success',
-      });
 
       setClientPrices(data);
     } catch (error) {
@@ -170,7 +161,7 @@ export const Client = () => {
       )}
       {clientId && (
         <Section title="Cliente" backButton>
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-10 max-h-[calc(100vh-200px)] overflow-auto px-8">
             <div className="flex w-full text-cream-100 gap-10 flex-wrap pt-10">
               {client &&
                 Object.entries(client).map(

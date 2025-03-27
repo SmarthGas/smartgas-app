@@ -22,22 +22,8 @@ export const SupplierPrices = ({
 }: SupplierPricesProps) => {
   const collumns: GridColDef<(typeof rows)[number]>[] = [
     {
-      field: 'gasName',
+      field: 'cylinderTypeId',
       headerName: 'Tipo de Gás',
-      flex: 1,
-      headerClassName: 'font-bold text-cream-100',
-      headerAlign: 'center',
-    },
-    {
-      field: 'size',
-      headerName: 'Tamanho',
-      flex: 1,
-      headerClassName: 'font-bold text-cream-100',
-      headerAlign: 'center',
-    },
-    {
-      field: 'measurementUnit',
-      headerName: 'Unidade',
       flex: 1,
       headerClassName: 'font-bold text-cream-100',
       headerAlign: 'center',
@@ -45,20 +31,6 @@ export const SupplierPrices = ({
     {
       field: 'price',
       headerName: 'Preço',
-      flex: 1,
-      headerClassName: 'font-bold text-cream-100',
-      headerAlign: 'center',
-    },
-    {
-      field: 'startDate',
-      headerName: 'Data Inicial',
-      flex: 1,
-      headerClassName: 'font-bold text-cream-100',
-      headerAlign: 'center',
-    },
-    {
-      field: 'endDate',
-      headerName: 'Data Final',
       flex: 1,
       headerClassName: 'font-bold text-cream-100',
       headerAlign: 'center',
@@ -97,25 +69,21 @@ export const SupplierPrices = ({
   ];
   const rows: {
     id: string;
-    gasName: string;
-    price: number;
-    startDate: string;
-    endDate: string;
+    cylinderTypeId: string;
+    price: string;
     active: string;
   }[] = supplierPrices.map((price: SupplierPriceType) => ({
     id: price.id,
-    gasName: price.CylinderType.gasType.gasName,
-    size: price.CylinderType.size,
-
-    measurementUnit: price.CylinderType.gasType.measurementUnit,
-    price: price.price,
-    startDate: price.startDate,
-    endDate: price.endDate,
+    cylinderTypeId: price.cylinderTypeId,
+    price: `R$ ${Number(price.price).toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`,
     active: price.active ? 'Sim' : 'Não',
   }));
   return (
-    <>
+    <div className="flex flex-col gap-4 overflow-auto">
       <DataGridBox rows={rows} columns={collumns} />;
-    </>
+    </div>
   );
 };
