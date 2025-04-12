@@ -3,14 +3,18 @@ import { Section } from '../../components/Section';
 import { DataGridBox } from '../../components/Datagrid';
 import { GridColDef } from '@mui/x-data-grid';
 import { Button } from '../../components/Button';
-import { useNavigate } from 'react-router-dom';
 import api from '../../lib/api';
 import { OrderType } from '../../types/order';
 import { orderStatusDictionary } from '../../utils/dictionaries/orderStatus';
 import { dateFormatter } from '../../utils/dateFormatter';
+import { Modal } from '../../components/Modal';
+import { ModalCreateOrder } from './components/modal_create_order';
 
 export const Orders = () => {
-  const navigate = useNavigate();
+  const [modal, setModal] = useState({
+    name: '',
+    title: '',
+  });
 
   const [orders, setOrders] = useState<OrderType[]>([]);
 
@@ -64,17 +68,35 @@ export const Orders = () => {
     orderDate: dateFormatter(order.orderDate),
   }));
 
+  const openCreateOrderModal = () => {
+    setModal({
+      name: 'create-order',
+      title: 'Criar Pedido',
+    });
+  };
+
   return (
-    <Section title="Pedidos">
-      <div className="flex w-full justify-end">
-        <Button
-          label="Adicionar Pedido"
-          icon="plus"
-          variant="primary"
-          onClick={() => navigate('/create-order')}
-        />
-      </div>
-      <DataGridBox rows={rows} columns={columns} />
-    </Section>
+    <>
+      {modal.name === 'create-order' && (
+        <Modal
+          title="Novo Pedido"
+          subtitle="Preencha os dados abaixo para criar um novo pedido"
+          closeModal={() => setModal({ name: '', title: '' })}
+        >
+          <ModalCreateOrder />
+        </Modal>
+      )}
+      <Section title="Pedidos">
+        <div className="flex w-full justify-end">
+          <Button
+            label="Adicionar Pedido"
+            icon="plus"
+            variant="primary"
+            onClick={openCreateOrderModal}
+          />
+        </div>
+        <DataGridBox rows={rows} columns={columns} />
+      </Section>
+    </>
   );
 };
