@@ -1,57 +1,116 @@
-import React, { useState } from 'react';
-import { SelectField } from '../../../../components/SelectField';
+import React, { useEffect, useState } from 'react';
+import {
+  SelectField,
+  SelectFieldProps,
+} from '../../../../components/SelectField';
 import { Button } from '../../../../components/Button';
+import { gasNameDictionary } from '../../../../utils/dictionaries/gasType';
+import { ClientType } from '../../../../types/client';
+import { CylinderControlType } from '../../../../types/cylinderControl';
+import { GasType } from '../../../../types/gasType';
 
-export const ModalCreateOrder = () => {
-  const [selectedClient, setSelectedClient] = useState('');
-  const [gasType, setGasType] = useState('');
+interface ModalCreateOrderProps {
+  clients: Array<ClientType>;
+  gasTypes: Array<GasType>;
+  lendings?: Array<{ id: string; name: string; clientId: string }>;
+  cylinderControl?: Array<CylinderControlType>;
+}
+
+export const ModalCreateOrder = ({
+  clients,
+  gasTypes,
+  lendings,
+  cylinderControl,
+}: ModalCreateOrderProps) => {
+  const [selectedClient, setSelectedClient] = useState<ClientType>();
+  const [selectedGasType, setGasType] = useState<GasType>();
   const [cylinderSize, setCylinderSize] = useState('');
   const [contractType, setContractType] = useState('');
 
-  const fields = [
+  const [availableCylinderSizes, setAvailableCylinderSizes] = useState<
+    number[]
+  >([]);
+
+  const getAvailableCylinderSize = () => {
+    const cylindersWithSelectedGasType = cylinderControl?.filter(
+      (cylinder) =>
+        cylinder.cylinderType.gasTypeId === selectedGasType?.id &&
+        cylinder.cylinderStatus !== 'empty'
+    );
+
+    const availableCylinderSizes = cylindersWithSelectedGasType?.map(
+      (cylinder) => cylinder.cylinderType.size
+    );
+
+    // Remove duplicatas usando Set e retorna como array
+    const uniqueSizes = [...new Set(availableCylinderSizes)];
+
+    return uniqueSizes || [];
+  };
+
+  useEffect(() => {
+    if (selectedGasType) {
+      const sizes = getAvailableCylinderSize();
+      setAvailableCylinderSizes(sizes);
+    }
+  }, [selectedGasType, cylinderControl]);
+
+  const fields: SelectFieldProps[] = [
     {
       label: 'Cliente',
-      value: selectedClient,
-      setValue: setSelectedClient,
+      value: selectedClient?.id || '',
+      onChange: (value: string) => {
+        setSelectedClient(clients.find((client) => client.id === value));
+      },
       placeholder: 'Selecione um cliente',
       options: [
-        { value: '1', label: 'Cliente 1' },
-        { value: '2', label: 'Cliente 2' },
-        { value: '3', label: 'Cliente 3' },
+        ...clients.map((client) => ({
+          value: client.id,
+          label: client.name,
+        })),
       ],
+      disabled: false,
     },
     {
       label: 'Tipos de Gás',
-      value: gasType,
-      setValue: setGasType,
+      value: selectedGasType?.id || '',
+      onChange: (value: string) => {
+        setGasType(gasTypes.find((gas) => gas.id === value));
+      },
       placeholder: 'Selecione o tipo de gás',
-      options: [
-        { value: 'gpl', label: 'Gás GLP' },
-        { value: 'gnv', label: 'Gás Natural (GNV)' },
-        { value: 'co2', label: 'Dióxido de Carbono (CO₂)' },
-      ],
+      options: gasTypes.map((gas) => ({
+        value: gas.id,
+        label: gasNameDictionary[gas.gasName],
+      })),
+      disabled: false,
     },
     {
       label: 'Tamanho do Cilindro',
       value: cylinderSize,
-      setValue: setCylinderSize,
-      placeholder: 'Selecione o tamanho do cilindro',
-      options: [
-        { value: '5kg', label: '5 kg' },
-        { value: '13kg', label: '13 kg' },
-        { value: '45kg', label: '45 kg' },
-      ],
+      onChange: setCylinderSize,
+      placeholder:
+        availableCylinderSizes.length > 0 || !selectedGasType
+          ? 'Selecione o tamanho do cilindro'
+          : 'Nenhum cilindro disponível',
+      options: availableCylinderSizes.map((size) => ({
+        value: size.toString(),
+        label: `${size}m³`,
+      })),
+      disabled: !selectedGasType || availableCylinderSizes.length === 0,
     },
     {
       label: 'Contrato',
       value: contractType,
-      setValue: setContractType,
+      onChange: setContractType,
       placeholder: 'Selecione o tipo de contrato',
-      options: [
-        { value: 'mensal', label: 'Mensal' },
-        { value: 'trimestral', label: 'Trimestral' },
-        { value: 'anual', label: 'Anual' },
-      ],
+      options:
+        lendings
+          ?.filter((lending) => lending.clientId === selectedClient?.id)
+          .map((lending) => ({
+            value: lending.id,
+            label: lending.id,
+          })) ?? [],
+      disabled: !selectedClient,
     },
   ];
 
@@ -63,9 +122,10 @@ export const ModalCreateOrder = () => {
           label={field.label}
           options={field.options}
           value={field.value}
-          onChange={field.setValue}
+          onChange={field.onChange}
           onBlur={() => console.log(`${field.label} blur`)}
           placeholder={field.placeholder}
+          disabled={field.disabled}
         />
       ))}
       <div className="flex justify-end gap-4">

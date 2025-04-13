@@ -3,7 +3,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { SupplierType } from '../../types/supplier';
 import { useSnackbar } from 'notistack';
-import api from '../../lib/api';
+import api from '../../services/api';
 import * as Yup from 'yup';
 import { removeMask } from '../../utils/removeMask';
 import { Form, Formik } from 'formik';

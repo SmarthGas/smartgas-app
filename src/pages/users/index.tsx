@@ -8,7 +8,7 @@ import { User } from '../../types/user';
 import { ConfirmDeleteuser } from './confirmDeleteUser';
 import { DataGridBox } from '../../components/Datagrid';
 import { Section } from '../../components/Section';
-import api from '../../lib/api';
+import api from '../../services/api';
 import { useSnackbar } from 'notistack';
 
 export const Users = () => {

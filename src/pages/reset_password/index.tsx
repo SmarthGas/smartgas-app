@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { useNavigate, useParams } from 'react-router-dom';
-import api from '../../lib/api';
+import api from '../../services/api';
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
@@ -15,7 +15,6 @@ export const ResetPassword = () => {
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
   const { userId } = useParams();
-
 
   const handlePasswordSubmit = () => {
     // TODO: fazer a requisição à API para redefinir a senha

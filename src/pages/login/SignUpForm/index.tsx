@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import api from '../../../lib/api';
+import api from '../../../services/api';
 import { Button } from '../../../components/Button';
 import { Input } from '../../../components/Input';
 

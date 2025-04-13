@@ -4,7 +4,7 @@ import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { DataGridBox } from '../../components/Datagrid';
 import { Section } from '../../components/Section';
-import api from '../../lib/api';
+import api from '../../services/api';
 import { useSnackbar } from 'notistack';
 // import { useNavigate } from 'react-router-dom';
 import { FormCreateClient } from './formCreateClient';

@@ -6,7 +6,7 @@ import React, {
   useContext,
   useEffect,
 } from 'react';
-import api from '../lib/api';
+import api from '../services/api';
 
 // Definindo o tipo para o usuário
 interface User {

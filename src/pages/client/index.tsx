@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ClientPriceType, ClientType } from '../../types/client';
-import api from '../../lib/api';
+import api from '../../services/api';
 import { Button } from '../../components/Button';
 import { Section } from '../../components/Section';
 import { Modal } from '../../components/Modal';
@@ -80,7 +80,6 @@ export const Client = () => {
       });
 
       const { data } = response;
-
 
       enqueueSnackbar('Preços do cliente buscados com sucesso', {
         variant: 'success',

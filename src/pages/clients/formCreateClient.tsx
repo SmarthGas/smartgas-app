@@ -3,7 +3,7 @@ import { Button } from '../../components/Button';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import { InputForm } from '../../components/InputForm';
-import api from '../../lib/api';
+import api from '../../services/api';
 import { removeMask } from '../../utils/removeMask';
 import { validateCNPJ } from '../../utils/validateCNPJ';
 import { ClientType } from '../../types/client';
@@ -82,7 +82,6 @@ export const FormCreateClient = ({
 }: FormCreateClientProps) => {
   const handleSubmit = async (values: FormValues) => {
     try {
-
       const {
         data,
       }: {

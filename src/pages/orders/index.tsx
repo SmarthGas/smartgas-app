@@ -3,12 +3,19 @@ import { Section } from '../../components/Section';
 import { DataGridBox } from '../../components/Datagrid';
 import { GridColDef } from '@mui/x-data-grid';
 import { Button } from '../../components/Button';
-import api from '../../lib/api';
+import api from '../../services/api';
 import { OrderType } from '../../types/order';
 import { orderStatusDictionary } from '../../utils/dictionaries/orderStatus';
 import { dateFormatter } from '../../utils/dateFormatter';
 import { Modal } from '../../components/Modal';
 import { ModalCreateOrder } from './components/modal_create_order';
+import { getClients } from '../../services/requests/client';
+import { ClientType } from '../../types/client';
+import { getGasTypes } from '../../services/requests/gasType';
+import { GasType } from '../../types/gasType';
+import { getLending } from '../../services/requests/lending';
+import { getCylinderControl } from '../../services/requests/cylinderControl';
+import { CylinderControlType } from '../../types/cylinderControl';
 
 export const Orders = () => {
   const [modal, setModal] = useState({
@@ -17,6 +24,12 @@ export const Orders = () => {
   });
 
   const [orders, setOrders] = useState<OrderType[]>([]);
+  const [clients, setClients] = useState<ClientType[]>([]);
+  const [gasTypes, setGasTypes] = useState<GasType[]>([]);
+  const [lendings, setLendings] = useState<any[]>([]);
+  const [cylinderControl, setCylinderControl] = useState<CylinderControlType[]>(
+    []
+  );
 
   const getOrders = async () => {
     try {
@@ -25,9 +38,58 @@ export const Orders = () => {
       }>('/order');
 
       const { data } = response;
-
-      console.log(data);
       setOrders(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClients = async () => {
+    try {
+      const clients = await getClients();
+      if (clients) {
+        setClients(clients);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleGasType = async () => {
+    try {
+      const gasTypes = await getGasTypes();
+      if (gasTypes) {
+        setGasTypes(gasTypes);
+        console.log(gasTypes);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLendings = async () => {
+    try {
+      const lendings = await getLending();
+      if (lendings) {
+        console.log(lendings);
+        setLendings(lendings);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCylinderControl = async () => {
+    try {
+      const cylinderControl = await getCylinderControl({
+        params: {
+          cylinderStatus: 'stock',
+        },
+      });
+      if (cylinderControl) {
+        console.log(cylinderControl);
+      }
+      setCylinderControl(cylinderControl);
     } catch (error) {
       console.log(error);
     }
@@ -35,6 +97,10 @@ export const Orders = () => {
 
   useEffect(() => {
     getOrders();
+    handleClients();
+    handleGasType();
+    handleLendings();
+    handleCylinderControl();
   }, []);
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
@@ -83,7 +149,12 @@ export const Orders = () => {
           subtitle="Preencha os dados abaixo para criar um novo pedido"
           closeModal={() => setModal({ name: '', title: '' })}
         >
-          <ModalCreateOrder />
+          <ModalCreateOrder
+            clients={clients}
+            gasTypes={gasTypes}
+            lendings={lendings}
+            cylinderControl={cylinderControl}
+          />
         </Modal>
       )}
       <Section title="Pedidos">

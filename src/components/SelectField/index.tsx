@@ -2,7 +2,7 @@ import React from 'react';
 import { CaretUpDown } from '@phosphor-icons/react';
 import { Select, MenuItem } from '@mui/material';
 
-interface SelectFieldProps {
+export interface SelectFieldProps {
   label: string;
   options: Array<{ value: string; label: string }>;
   value: string;
@@ -10,6 +10,7 @@ interface SelectFieldProps {
   onChange?: (value: string) => void;
   onBlur?: () => void;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 export const SelectField = ({
@@ -19,6 +20,7 @@ export const SelectField = ({
   onChange,
   onBlur,
   placeholder,
+  disabled,
 }: SelectFieldProps) => {
   return (
     <div className="w-full flex flex-col items-start gap-2 text-sm">
@@ -30,11 +32,24 @@ export const SelectField = ({
         onChange={(e) => onChange?.(e.target.value)}
         onBlur={onBlur}
         displayEmpty
-        renderValue={(selected) =>
-          selected
-            ? options.find((o) => o.value === selected)?.label
-            : placeholder
-        }
+        renderValue={(selected) => {
+          if (selected.length === 0) {
+            return <span className="text-dark">{placeholder}</span>;
+          }
+          const selectedOption = options.find(
+            (option) => option.value === selected
+          );
+          return selectedOption ? selectedOption.label : placeholder;
+        }}
+        sx={{
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'transparent',
+          },
+          '& .MuiOutlinedInput-root.Mui-focused': {
+            boxShadow: 'none',
+          },
+        }}
+        disabled={disabled}
       >
         {options.map((option) => (
           <MenuItem key={option.value} value={option.value}>

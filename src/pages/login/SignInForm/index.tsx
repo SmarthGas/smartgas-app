@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Button } from '../../../components/Button';
 import { Input } from '../../../components/Input';
-import api from '../../../lib/api';
+import api from '../../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { useUser } from '../../../providers/userContext';
