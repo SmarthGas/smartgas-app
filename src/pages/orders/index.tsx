@@ -154,19 +154,35 @@ export const Orders = () => {
             gasTypes={gasTypes}
             lendings={lendings}
             cylinderControl={cylinderControl}
+            setOrders={setOrders}
+            closeModal={() => setModal({ name: '', title: '' })}
           />
         </Modal>
       )}
       <Section title="Pedidos">
-        <div className="flex w-full justify-end">
-          <Button
-            label="Adicionar Pedido"
-            icon="plus"
-            variant="primary"
-            onClick={openCreateOrderModal}
-          />
-        </div>
-        <DataGridBox rows={rows} columns={columns} />
+        {orders && orders.length > 0 ? (
+          <>
+            <div className="flex w-full justify-end">
+              <Button
+                label="Adicionar Pedido"
+                icon="plus"
+                variant="primary"
+                onClick={openCreateOrderModal}
+              />
+            </div>
+            <DataGridBox rows={rows} columns={columns} />
+          </>
+        ) : (
+          <div className="flex flex-col gap-4 items-center justify-center w-full h-full">
+            <h1 className="text-cream-100 text-xl">Nenhum pedido encontrado</h1>
+            <Button
+              label="Adicionar Pedido"
+              icon="plus"
+              variant="primary"
+              onClick={openCreateOrderModal}
+            />
+          </div>
+        )}
       </Section>
     </>
   );
