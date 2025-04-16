@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '../../components/Button';
 import { User } from '../../types/user';
 import { useSnackbar } from 'notistack';
-import api from '../../lib/api';
+import api from '../../services/api';
 import * as Yup from 'yup';
 import { removeMask } from '../../utils/removeMask';
 import { Form, Formik } from 'formik';

@@ -11,7 +11,6 @@ import { Supplier } from './pages/supplier';
 import { Clients } from './pages/clients';
 import { Client } from './pages/client';
 import { Orders } from './pages/orders';
-import { CreateOrder } from './pages/create_order';
 
 interface PrivateRoutesProps {
   children: React.ReactNode;
@@ -105,14 +104,6 @@ export const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Orders />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/create-order"
-        element={
-          <PrivateRoute>
-            <CreateOrder />
           </PrivateRoute>
         }
       />

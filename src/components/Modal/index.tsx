@@ -2,10 +2,17 @@ import { X } from '@phosphor-icons/react';
 import React from 'react';
 interface ModalProps {
   title: string;
+  subtitle?: string;
   children: React.ReactNode;
   closeModal?: () => void;
+  className?: string;
 }
-export const Modal = ({ title, children, closeModal }: ModalProps) => {
+export const Modal = ({
+  title,
+  subtitle,
+  children,
+  closeModal,
+}: ModalProps) => {
   return (
     <>
       <div
@@ -13,14 +20,18 @@ export const Modal = ({ title, children, closeModal }: ModalProps) => {
         onClick={closeModal}
       >
         <div
-          className="flex flex-col bg-brand-400 p-4 gap-8 rounded-lg"
+          className="flex flex-col bg-brand-400 p-8 gap-8 rounded-lg"
           onClick={(e) => e.stopPropagation()}
         >
           <header className="flex justify-between items-center">
-            <h1>{title}</h1>
+            <div className="flex flex-col gap-2">
+              <h1 className="text-start">{title}</h1>
+              <h2 className="text-xs text-cream-100">{subtitle}</h2>
+            </div>
+            {/* close button */}
             <X size={24} onClick={closeModal} className="cursor-pointer" />
           </header>
-          <main className="px-8">{children}</main>
+          <main>{children}</main>
         </div>
       </div>
     </>

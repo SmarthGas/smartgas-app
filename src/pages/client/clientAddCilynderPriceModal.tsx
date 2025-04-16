@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Input } from '../../components/Input';
 import { useSnackbar } from 'notistack';
-import api from '../../lib/api';
+import api from '../../services/api';
 import { Button } from '../../components/Button';
 import { CylinderType } from '../../types/cylinder';
 import { ClientPriceType } from '../../types/client';

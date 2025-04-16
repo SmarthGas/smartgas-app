@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Section } from '../../components/Section';
 import { SupplierPriceType, SupplierType } from '../../types/supplier';
-import api from '../../lib/api';
+import api from '../../services/api';
 import { SupplierPrices } from './supplierPrices';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
