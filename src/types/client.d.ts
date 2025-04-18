@@ -16,4 +16,10 @@ export type ClientPriceType = {
   cylinderTypeId: string;
   price: number;
   active: string;
+  cylinderType: {
+    gasType: {
+      gasName: string;
+    };
+    size: number;
+  };
 };
