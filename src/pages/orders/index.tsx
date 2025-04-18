@@ -16,6 +16,7 @@ import { GasType } from '../../types/gasType';
 import { getLending } from '../../services/requests/lending';
 import { getCylinderControl } from '../../services/requests/cylinderControl';
 import { CylinderControlType } from '../../types/cylinderControl';
+import { ModalViewOrder } from './components/modal_view_order';
 
 export const Orders = () => {
   const [modal, setModal] = useState({
@@ -30,6 +31,9 @@ export const Orders = () => {
   const [cylinderControl, setCylinderControl] = useState<CylinderControlType[]>(
     []
   );
+
+  const [selectedOrderToView, setSelectedOrderToView] =
+    useState<OrderType | null>(null);
 
   const getOrders = async () => {
     try {
@@ -125,6 +129,38 @@ export const Orders = () => {
       headerClassName: 'font-bold text-cream-100',
       headerAlign: 'center',
     },
+    {
+      field: 'totalPrice',
+      headerName: 'Valor Total',
+      flex: 1,
+      headerClassName: 'font-bold text-cream-100',
+      headerAlign: 'center',
+    },
+    {
+      field: 'view',
+      headerName: 'Visualizar',
+      flex: 1,
+      headerClassName: 'font-bold text-cream-100',
+      headerAlign: 'center',
+      renderCell: (params) => (
+        <div className="w-full justify-center flex items-center h-full">
+          <Button
+            icon="view"
+            variant="primary"
+            onClick={() => {
+              const order = orders.find((order) => order.id === params.row.id);
+              if (order) {
+                setSelectedOrderToView(order);
+                setModal({
+                  name: 'view-order',
+                  title: 'Visualizar Pedido',
+                });
+              }
+            }}
+          />
+        </div>
+      ),
+    },
   ];
 
   const rows = orders.map((order) => ({
@@ -132,6 +168,7 @@ export const Orders = () => {
     clientName: order.client.name,
     orderStatus: orderStatusDictionary[order.orderStatus],
     orderDate: dateFormatter(order.orderDate),
+    totalPrice: `R$ ${order.totalPrice.toFixed(2).replace('.', ',')}`,
   }));
 
   const openCreateOrderModal = () => {
@@ -159,6 +196,15 @@ export const Orders = () => {
           />
         </Modal>
       )}
+      {modal.name === 'view-order' && (
+        <Modal
+          title="Visualizar Pedido"
+          closeModal={() => setModal({ name: '', title: '' })}
+        >
+          <ModalViewOrder order={selectedOrderToView} />
+        </Modal>
+      )}
+
       <Section title="Pedidos">
         {orders && orders.length > 0 ? (
           <>

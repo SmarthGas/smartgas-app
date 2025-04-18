@@ -4,9 +4,11 @@ import { User } from './user';
 export type OrderType = {
   id: string;
   client: ClientType;
-  orderCylinderControl: any;
+  totalPrice: number;
   orderDate: string;
   orderStatus: string;
   swithType: string;
   user: User;
+  switchType: string;
+  orderCylinderControl: any[];
 };

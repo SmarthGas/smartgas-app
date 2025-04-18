@@ -1,49 +1,31 @@
-import React, { useState } from 'react';
-import { SignUpForm } from './SignUpForm';
+import React from 'react';
 import { SignInForm } from './SignInForm';
+import { Brain } from '@phosphor-icons/react';
 
 export const Login = () => {
   // Resgata a localização atual da página para definir a aba ativa
-  const [loginMode, setLoginMode] = useState<'sign_up' | 'sign_in'>('sign_up');
 
   return (
-    <div className="flex flex-col w-screen absolute top-0 left-0 h-full bg-brand-300 px-16 items-center p-[10vh]">
+    <div className="flex flex-col w-screen absolute top-0 left-0 h-full bg-brand-300 px-16 items-center p-[20vh]">
       <div
         id="content"
-        className="flex flex-col pt-2 pb-24 w-max h-max inset-0 space-y-8"
+        className="flex w-[40vw] h-max items-center justify-center bg-white/5 rounded-lg shadow-lg p-8 gap-4"
       >
-        <div id="tabs" className="w-full">
-          <button
-            className={`w-60 h-12.5 text-cream-100 text-xs ${loginMode === 'sign_up' ? 'border-b-2' : ''}`}
-            onClick={() => setLoginMode('sign_up')}
-          >
-            Inscrever-se
-          </button>
-          <button
-            className={`w-60 h-12.5 text-cream-100 text-xs ${loginMode === 'sign_in' ? 'border-b-2' : ''}`}
-            onClick={() => setLoginMode('sign_in')}
-          >
-            Login
-          </button>
-        </div>
+        <div className="flex flex-col w-full">
+          <div className="flex justify-between  w-full">
+            <div className="flex items-center gap-4 w-1/2 justify-center ">
+              <Brain size={32} color="#fff" />
+              <h1>SmartGas</h1>
+            </div>
+            <div className="flex flex-col w-1/2 px-4 justify-end items-center gap-4">
+              <div className="flex w-full p-8">
+                <h1 className="text-sm font-bold">Iniciar sessão</h1>
+              </div>
 
-        <div
-          id="section_title"
-          className="text-cream-100 text-4xl font-semibold"
-        >
-          <p>{loginMode === 'sign_up' ? 'Inscrever-se' : 'Login'}</p>
+              <SignInForm />
+            </div>
+          </div>
         </div>
-
-        {loginMode === 'sign_up' && (
-          <div>
-            <SignUpForm />
-          </div>
-        )}
-        {loginMode === 'sign_in' && (
-          <div>
-            <SignInForm />
-          </div>
-        )}
       </div>
       <div className="h-18"></div>
     </div>

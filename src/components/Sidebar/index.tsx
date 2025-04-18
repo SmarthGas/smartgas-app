@@ -1,4 +1,4 @@
-import { HandCoins, Note, SignOut, Users } from '@phosphor-icons/react';
+import { Brain, HandCoins, Note, SignOut, Users } from '@phosphor-icons/react';
 import React from 'react';
 import { Button } from '../Button';
 import { NavItem } from './NavItem';
@@ -29,7 +29,8 @@ export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
     >
       <div className="w-full h-full flex flex-col gap-4">
         <div className="flex justify-between items-center p-2">
-          <span className="flex w-full pl-2">
+          <span className="flex w-full pl-2 gap-2 items-center">
+            <Brain size={16} color="#fff" />
             <h1>SmartGas</h1>
           </span>
           <Button

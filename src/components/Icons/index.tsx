@@ -3,6 +3,7 @@ import {
   ArrowLeft,
   Check,
   CurrencyDollar,
+  Eye,
   FloppyDisk,
   List,
   Minus,
@@ -23,4 +24,5 @@ export const icons = {
   arrowLeft: <ArrowLeft size={16} />,
   plus: <Plus size={16} />,
   minus: <Minus size={16} />,
+  view: <Eye size={16} />,
 };

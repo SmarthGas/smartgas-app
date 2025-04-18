@@ -4,6 +4,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import { Button } from '../../components/Button';
 import { ClientPriceType } from '../../types/client';
 import { Input } from '../../components/Input';
+import { gasNameDictionary } from '../../utils/dictionaries/gasType';
 
 interface ClientPricesProps {
   clientId: string;
@@ -23,8 +24,15 @@ export const ClientPrices = ({
 }: ClientPricesProps) => {
   const collumns: GridColDef<(typeof rows)[number]>[] = [
     {
-      field: 'cylinderTypeId',
-      headerName: 'Tipo de Gás',
+      field: 'gasName',
+      headerName: 'Gás',
+      flex: 1,
+      headerClassName: 'font-bold text-cream-100',
+      headerAlign: 'center',
+    },
+    {
+      field: 'size',
+      headerName: 'Tamanho',
       flex: 1,
       headerClassName: 'font-bold text-cream-100',
       headerAlign: 'center',
@@ -56,7 +64,7 @@ export const ClientPrices = ({
             icon="trash"
             onClick={() => {
               {
-                setSelectedCylinderTypeIdToDelete(params.row.cylinderTypeId);
+                setSelectedCylinderTypeIdToDelete(params.row.id);
                 setModal({
                   title: 'Excluir Preço',
                   name: 'delete-client-price',
@@ -70,12 +78,14 @@ export const ClientPrices = ({
   ];
   const rows: {
     id: string;
-    cylinderTypeId: string;
+    gasName: string;
+    size: string;
     price: number;
     active: string;
   }[] = clientPrices.map((price: ClientPriceType) => ({
-    id: price.id,
-    cylinderTypeId: price.cylinderTypeId,
+    id: price.cylinderTypeId,
+    gasName: gasNameDictionary[price.cylinderType.gasType?.gasName],
+    size: `${price.cylinderType.size}m³`,
     price: price.price,
     active: price.active,
   }));
@@ -101,7 +111,7 @@ export const ClientPrices = ({
 
   return (
     <>
-      <div className="flex w-fit items-center justify-center gap-2  ">
+      <div className="flex w-fit items-center justify-center gap-2 ">
         <p className="text-xs">Exibir apenas preços ativos</p>
         <span>
           <Input

@@ -185,7 +185,7 @@ export const Client = () => {
             </div>
             <div className="flex w-full border border-cream-100/50" />
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 ">
               <div className="flex w-full justify-end">
                 <Button
                   label="Adicionar Cilindro"

@@ -31,7 +31,7 @@ export const Modal = ({
             {/* close button */}
             <X size={24} onClick={closeModal} className="cursor-pointer" />
           </header>
-          <main>{children}</main>
+          <main className="min-w-[300px]">{children}</main>
         </div>
       </div>
     </>
